@@ -1,0 +1,13 @@
+.btn-primary {
+    background-color: #4CAF4F !important;
+    border-color: #4CAF4F !important;
+  }
+  
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary:active {
+    background-color: #43a047 !important;
+    border-color: #43a047 !important;
+    transform: translateY(-1px);
+    transition: 0.2s;
+  }
