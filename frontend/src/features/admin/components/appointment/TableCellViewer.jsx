@@ -8,6 +8,15 @@ import { toast } from "sonner";
 import { updateAppointment } from "@/api/appointmentApi";
 
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup
+} from "@/components/ui/select"
+
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -123,7 +132,7 @@ export function TableCellViewer({
             {mode === "create"
               ? "Add Appointment"
               : details
-              ? details.client_name
+              ? `${details.client_first_name} ${details.client_last_name}`
               : "Loading..."}
           </DrawerTitle>
 
@@ -169,13 +178,32 @@ export function TableCellViewer({
 
         <div className="px-4 space-y-3">
 
-          <Field>
-            <FieldLabel>Client</FieldLabel>
+          <Field className='flex flex-row'>
+            <div className='w-40'>
+              <FieldLabel>First Name</FieldLabel>
             <Input
-              value={details?.client_name || ""}
+              value={details?.client_first_name || ""}
               onChange={(e) => handleChange("client_name", e.target.value)}
               disabled={!isEditable}
             />
+            </div>
+
+            <div className="w-40">
+              <FieldLabel>Last Name</FieldLabel>
+            <Input
+            value={details?.client_last_name || ""}
+            disabled={!isEditable}></Input>
+            </div>
+
+            <div className="w-20">
+              <FieldLabel>M.I</FieldLabel>
+            <Input disabled={!isEditable}></Input>
+            </div>
+            
+
+            
+
+            
           </Field>
 
           <Field>
@@ -189,13 +217,33 @@ export function TableCellViewer({
 
           <Field>
             <FieldLabel>Therapist</FieldLabel>
-            <Input
-              value={details?.therapist || ""}
-              onChange={(e) => handleChange("therapist", e.target.value)}
-              disabled={!isEditable}
-            />
+
+            <Select
+              value={details?.therapist ?? "none"}
+              onValueChange={(value) =>
+                handleChange("therapist", value === "none" ? null : value)
+              }>
+              <SelectTrigger disabled={!isEditable}>
+                <SelectValue placeholder="Select therapist" />
+              </SelectTrigger>
+            
+              <SelectContent>
+                <SelectGroup>
+                  {/* Default when no therapist */}
+                  <SelectItem value="none">No therapist</SelectItem>
+            
+                  {/* Current therapist (if exists) */}
+                  {details?.therapist && (
+                    <SelectItem value={details.therapist}>
+                      {details.therapist}
+                    </SelectItem>
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </Field>
 
+          <div className="flex gap-2">
           <Field>
             <FieldLabel>Date</FieldLabel>
             <Input
@@ -215,7 +263,9 @@ export function TableCellViewer({
               disabled={!isEditable}
             />
           </Field>
+          </div>
 
+          <div className="flex gap-2">
           <Field>
             <FieldLabel>Duration</FieldLabel>
             <Input
@@ -233,15 +283,29 @@ export function TableCellViewer({
               disabled={!isEditable}
             />
           </Field>
+          </div>
 
-          <Field>
-            <FieldLabel>Status</FieldLabel>
-            <Input
-              value={details?.status || ""}
-              onChange={(e) => handleChange("status", e.target.value)}
-              disabled={!isEditable}
-            />
-          </Field>
+        <Field>
+          <FieldLabel>Status</FieldLabel>
+                        
+          <Select
+            value={details?.status ?? "Pending"}
+            onValueChange={(value) => handleChange("status", value)}
+          >
+            <SelectTrigger disabled={!isEditable}>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+                        
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Pending">Pending</SelectItem>
+                <SelectItem value="Scheduled">Scheduled</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
+                <SelectItem value="Cancelled">Cancelled</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </Field>
 
         </div>
 

@@ -1,6 +1,6 @@
 import background from '../../../assets/images/background.png';
 import { useState } from 'react';
-// import PopUp from './pages/popUp.jsx';
+import PopUp from "@/features/home/components/popUp.jsx"
 
 function Body(){
     const [bookChoice, showChoices] = useState(false);

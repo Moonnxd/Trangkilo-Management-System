@@ -9,14 +9,15 @@ import staffRoutes from "./src/routes/staffRoutes.js"
 import roleRoutes from "./src/routes/roleRoutes.js"
 import branchRoutes from "./src/routes/branchRoutes.js"
 import appointmentRoutes from "./src/routes/appointmentRoutes.js";
-
-
+import serviceType from "./src/routes/serviceType.js";
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.use("/serviceType", serviceType);
 
 app.use("/api/appointments", appointmentRoutes);
 

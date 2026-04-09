@@ -94,4 +94,7 @@ function AdminAppointmentPage() {
   );
 }
 
+// Needs a fix on appointment list actions
+// Conflicts on duplicates client name when action is done
+
 export default AdminAppointmentPage;

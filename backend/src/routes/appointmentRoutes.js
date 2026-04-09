@@ -3,12 +3,12 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-/* Display Appointments */
 router.get("/", (req, res) => {
   const sql = `
     SELECT 
       a.appointment_id,
-      CONCAT(c.first_name, ' ', c.last_name) AS client_name,
+      c.first_name AS client_first_name,
+      c.last_name AS client_last_name,
       s.service_name AS service,
       CONCAT(st.first_name, ' ', st.last_name) AS therapist,
       a.appointment_date AS date,

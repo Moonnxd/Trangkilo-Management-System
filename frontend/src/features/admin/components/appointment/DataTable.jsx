@@ -17,7 +17,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-/* ---------------- DATA TABLE ---------------- */
 
 export function DataTable({ data = [], onNameClick }) {
   const [rowSelection, setRowSelection] = React.useState({});
@@ -34,7 +33,7 @@ export function DataTable({ data = [], onNameClick }) {
           className="underline"
           onClick={() => onNameClick(row.original)}
         >
-          {row.original.client_name}
+          {`${row.original.client_first_name} ${row.original.client_last_name}`}
         </Button>
       ),
     },
