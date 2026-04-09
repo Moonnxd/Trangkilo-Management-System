@@ -1,7 +1,7 @@
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { AdminSideBar } from "../components/AdminSideBar"
 import { ChartAreaInteractive } from "../components/ChartAreaInteractive"
-import { DataTable } from "../components/DataTable"
+import { DataTable } from "@/features/admin/components/appointment/DataTable"
 import { SectionCards } from "../components/SectionCards"
 import { SiteHeader } from "../components/SiteHeader"
 import {
