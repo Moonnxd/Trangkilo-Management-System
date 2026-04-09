@@ -49,7 +49,7 @@
 }
 
 :root {
-    --background: oklch(0.96 0.01 195);
+    --background: oklch(0.96 0.01 100);
     --foreground: oklch(0.148 0.004 228.8);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.148 0.004 228.8);
@@ -115,6 +115,48 @@
     --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.56 0.021 213.5);
+}
+
+/* =========================
+   SONNER TOAST OVERRIDES
+   Strong status colors
+   ========================= */
+
+[data-sonner-toast] {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--card-foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+/*  SUCCESS */
+[data-sonner-toast][data-type="success"] {
+  background: hsl(142 76% 36% / 0.12) !important;
+  border: 1px solid hsl(142 76% 36% / 0.35) !important;
+  color: hsl(142 76% 20%) !important;
+}
+
+/*  ERROR */
+[data-sonner-toast][data-type="error"] {
+  background: hsl(0 84% 60% / 0.12) !important;
+  border: 1px solid hsl(0 84% 60% / 0.35) !important;
+  color: hsl(0 84% 25%) !important;
+}
+
+/*  DEFAULT / INFO */
+[data-sonner-toast][data-type="default"] {
+  background: hsl(var(--card)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+/*  OPTIONAL: nicer shadow */
+[data-sonner-toast] {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+[data-sonner-toast] {
+  backdrop-filter: blur(8px);
+  top: 20px !important;
 }
 
 @layer base {

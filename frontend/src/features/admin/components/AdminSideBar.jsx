@@ -6,6 +6,7 @@ import imgLogo from "@/assets/images/landingLogo.png";
 import {
   IconCamera,
   IconChartBar,
+  IconBuildingStore,
   IconDashboard,
   IconDatabase,
   IconFileAi,
@@ -76,6 +77,11 @@ const data = {
       title: "Staffs",
       url: "/admin/staffs",
       icon: IconUsers,
+    },
+    {
+      title: "Branches",
+      url: "/admin/branches",
+      icon: IconBuildingStore,
     },
     {
       title: "Users",

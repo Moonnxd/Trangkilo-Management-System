@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { SiteHeader } from "../components/SiteHeader"
 import { IconPlus } from "@tabler/icons-react"
 import { Input } from "@/components/ui/input"
+import { TableCellViewer } from "../components/staffs/TableCellViewer";
+import { Textarea } from "@/components/ui/textarea"
 import {
   SidebarInset,
   SidebarProvider,
@@ -34,12 +36,14 @@ import {
   }
 
 //axios
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { getStaffs } from "@/api/staffApi";
 
 function AdminStaffPage() {
     const [data, setData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [mode, setMode] = useState("view");
+    const [selectedStaffId, setSelectedStaffId] = useState(null)
 
     useEffect(() => {
       fetchStaffs();
@@ -52,7 +56,8 @@ function AdminStaffPage() {
       } catch (err) {
         console.log(err);
       }
-    };;
+    };
+
 
     return (
         <SidebarProvider style={styleObject}>
@@ -69,7 +74,12 @@ function AdminStaffPage() {
                     <Field orientation="horizontal" className="sm:max-w-lg">
                     <Input type="search" placeholder="Search by staff name, branch or role..." />
                     <Button>Search</Button>
-                    <Button type="submit" form="form-rhf-demo">
+                    <Button 
+                      onClick={() => {
+                        setMode("create")
+                        setSelectedStaffId(null)
+                        setOpen(true)
+                      }}>
                         <IconPlus />Add Staff Member
                     </Button>
                     </Field>
@@ -77,7 +87,22 @@ function AdminStaffPage() {
                 <div className="flex flex-1 flex-col">
                     <div className="@container/main flex flex-1 flex-col gap-2">
                         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                            <DataTable data={data} />
+                            <DataTable 
+                              data={data}
+                              onNameClick = {(item) => {
+                                setMode("view")
+                                setSelectedStaffId(item.staff_id)
+                                setOpen(true)
+                              }}  
+                            />
+                            <TableCellViewer
+                              open={open}
+                              setOpen={setOpen}
+                              mode={mode}
+                              setMode={setMode}
+                              staffId={selectedStaffId}
+                              refreshData={fetchStaffs}
+                            />
                         </div>
                     </div>
                 </div> 

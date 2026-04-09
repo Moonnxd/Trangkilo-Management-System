@@ -5,10 +5,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
 
 import {
   Table,
@@ -19,90 +17,62 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerFooter,
-  DrawerClose,
-} from "@/components/ui/drawer";
-
-/* ---------------- DRAWER COMPONENT ---------------- */
-
-function StaffDrawer({ row }) {
-  const data = row.original;
-
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="link" className="p-0">
-          {data.header}
-        </Button>
-      </DrawerTrigger>
-
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Staff Details</DrawerTitle>
-        </DrawerHeader>
-
-        <div className="p-4 space-y-3">
-          <Input defaultValue={data.header} placeholder="Name" />
-          <Input defaultValue={data.type} placeholder="Role" />
-          <Input defaultValue={data.status} placeholder="Status" />
-        </div>
-
-        <DrawerFooter>
-          <Button>Save</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Close</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  );
-}
-
 /* ---------------- DATA TABLE ---------------- */
 
-export function DataTable({ data = [] }) {
+export function DataTable({ data = [], onNameClick }) {
   const [rowSelection, setRowSelection] = React.useState({});
+  console.log(data);
 
   const columns = React.useMemo(
     () => [
-      /* SELECT CHECKBOX */
+      // /* NAME */
       {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected()}
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
-          />
-        ),
+        accessorKey: "name",
+        header: "Name",
         cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-          />
-        ),
+          <Button 
+            variant="link"
+            className="underline"
+            onClick={() => onNameClick(row.original)}  
+          >
+            {row.original.name}
+          </Button> 
+        )
       },
 
-      /* NAME (with drawer) */
+      /* BRANCH NAME */
       {
-        accessorKey: "header",
-        header: "Name",
-        cell: ({ row }) => <StaffDrawer row={row} />,
+        accessorKey: "branch_name",
+        header: "Branch",
+        cell: ({ getValue }) => (
+          getValue()
+        ),
       },
 
       /* ROLE */
       {
-        accessorKey: "type",
+        accessorKey: "role_name",
         header: "Role",
         cell: ({ getValue }) => (
-          <Badge variant="outline">{getValue()}</Badge>
+          getValue()
+        ),
+      },
+
+      /* CONTACT */
+      {
+        accessorKey: "contact_number",
+        header: "Contact Number",
+        cell: ({ getValue }) => (
+          getValue()
+        ),
+      },
+
+      /* EMAIL */
+      {
+        accessorKey: "email",
+        header: "Email",
+        cell: ({ getValue }) => (
+          getValue()
         ),
       },
 
@@ -115,12 +85,7 @@ export function DataTable({ data = [] }) {
 
           return (
             <Badge
-              variant="outline"
-              className={
-                value === "Active"
-                  ? "text-green-600 border-green-600"
-                  : "text-red-600 border-red-600"
-              }
+            variant={value === "Active" ? "success" : "destructive"}
             >
               {value}
             </Badge>
@@ -142,10 +107,10 @@ export function DataTable({ data = [] }) {
   });
 
   return (
-    <div className="rounded-md border ml-4 mr-4">
+    <div className="overflow-hidden rounded-lg border ml-4 mr-4">
       <Table>
         {/* HEADER */}
-        <TableHeader>
+        <TableHeader className="bg-muted">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -161,7 +126,7 @@ export function DataTable({ data = [] }) {
         </TableHeader>
 
         {/* BODY */}
-        <TableBody>
+        <TableBody className="bg-card">
           {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>

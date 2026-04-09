@@ -1,11 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 
 //routes
-import staffRoutes from "./src/routes/staffRoutes"
-
-dotenv.config();
+import staffRoutes from "./src/routes/staffRoutes.js"
+import roleRoutes from "./src/routes/roleRoutes.js"
+import branchRoutes from "./src/routes/branchRoutes.js"
 
 const app = express();
 
@@ -16,6 +18,11 @@ app.use(express.json());
 //get staffs
 app.use("/api/staffs", staffRoutes);
 
+//get roles
+app.use("/api/roles", roleRoutes);
+
+//get branches
+app.use("/api/branches",branchRoutes);
 
 // Test route
 app.get("/", (req, res) => {
