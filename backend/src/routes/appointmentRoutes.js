@@ -1,0 +1,32 @@
+import express from "express";
+import { db } from "../db.js";
+
+const router = express.Router();
+
+/* Display Appointments */
+router.get("/", (req, res) => {
+  const sql = `
+    SELECT 
+      a.appointment_id,
+      CONCAT(c.first_name, ' ', c.last_name) AS client_name,
+      s.service_name AS service,
+      CONCAT(st.first_name, ' ', st.last_name) AS therapist,
+      a.appointment_date AS date,
+      a.start_time,
+      aps.duration_minutes AS duration,
+      aps.price,
+      a.status
+    FROM appointments a
+    LEFT JOIN customers c ON a.customer_id = c.customer_id
+    LEFT JOIN appointment_services aps ON a.appointment_id = aps.appointment_id
+    LEFT JOIN services s ON aps.services_id = s.services_id
+    LEFT JOIN staffs st ON a.therapist_id = st.staff_id
+  `;
+
+  db.query(sql, (err, result) => {
+    if (err) return res.status(500).json(err);
+    res.json(result);
+  });
+});
+
+export default router;

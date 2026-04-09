@@ -24,85 +24,59 @@ export function DataTable({ data = [], onNameClick }) {
   console.log(data);
 
   const columns = React.useMemo(
-    () => [
-      // /* NAME */
-      {
-        accessorKey: "name",
-        header: "Client",
-        cell: ({ row }) => (
-          <Button 
-            variant="link"
-            className="underline"
-            onClick={() => onNameClick(row.original)}  
-          >
-            {row.original.name}
-          </Button> 
-        )
+  () => [
+    {
+      accessorKey: "client_name",
+      header: "Client",
+      cell: ({ row }) => (
+        <Button
+          variant="link"
+          className="underline"
+          onClick={() => onNameClick(row.original)}
+        >
+          {row.original.client_name}
+        </Button>
+      ),
+    },
+    {
+      accessorKey: "service",
+      header: "Service",
+    },
+    {
+      accessorKey: "therapist",
+      header: "Therapist",
+    },
+    {
+      accessorKey: "date",
+      header: "Date",
+    },
+    {
+      accessorKey: "start_time",
+      header: "Time",
+    },
+    {
+      accessorKey: "duration",
+      header: "Duration",
+    },
+    {
+      accessorKey: "price",
+      header: "Price",
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ getValue }) => {
+        const value = getValue();
+        return (
+          <Badge variant={value === "Completed" ? "success" : "secondary"}>
+            {value}
+          </Badge>
+        );
       },
-
-      /* BRANCH NAME */
-      {
-        accessorKey: "branch_name",
-        header: "Service",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* ROLE */
-      {
-        accessorKey: "role_name",
-        header: "Therapist",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* CONTACT */
-      {
-        accessorKey: "contact_number",
-        header: "Date & Time",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* EMAIL */
-      {
-        accessorKey: "email",
-        header: "Duration",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      {
-        accessorKey: "email",
-        header: "Price",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* STATUS */
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ getValue }) => {
-          const value = getValue();
-
-          return (
-            <Badge
-            variant={value === "Active" ? "success" : "destructive"}
-            >
-              {value}
-            </Badge>
-          );
-        },
-      },
-    ],
-    []
-  );
+    },
+  ],
+  [onNameClick]
+);
 
   const table = useReactTable({
     data,
