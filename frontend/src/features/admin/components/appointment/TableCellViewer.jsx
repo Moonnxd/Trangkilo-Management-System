@@ -5,6 +5,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Separator } from "@/components/ui/separator";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { toast } from "sonner";
+import { updateAppointment } from "@/api/appointmentApi";
 
 import {
   AlertDialog,
@@ -29,15 +30,12 @@ import {
 
 import React, { useEffect, useState } from "react";
 
-
-
-
 export function TableCellViewer({
   open,
   setOpen,
   mode,
   setMode,
-  appointmentId,
+  appointment,
   refreshData,
 }) {
   const isMobile = useIsMobile();
@@ -46,7 +44,6 @@ export function TableCellViewer({
   const isEditable = mode === "edit" || mode === "create";
   const [saving, setSaving] = useState(false);
 
-
   const handleChange = (field, value) => {
     setDetails((prev) => ({
       ...prev,
@@ -54,37 +51,27 @@ export function TableCellViewer({
     }));
   };
 
-
   useEffect(() => {
     if (!open) return;
 
-    const fetchData = async () => {
-      if (mode === "create") {
-        setDetails({
-          client_name: "",
-          service: "",
-          therapist: "",
-          date: "",
-          start_time: "",
-          duration: "",
-          price: "",
-          status: "Pending",
-        });
-        return;
-      }
+    if (mode === "create") {
+      setDetails({
+        client_name: "",
+        service: "",
+        therapist: "",
+        date: "",
+        start_time: "",
+        duration: "",
+        price: "",
+        status: "Pending",
+      });
+      return;
+    }
 
-      if (!appointmentId) return;
-
-      try {
-        const res = await getAppointment(appointmentId);
-        setDetails(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchData();
-  }, [open, appointmentId, mode]);
+    if (appointment) {
+      setDetails(appointment);
+    }
+  }, [open, appointment, mode]);
 
   const handleSave = async () => {
     if (!details) return;
@@ -96,7 +83,7 @@ export function TableCellViewer({
         await createAppointment(details);
         toast.success("Appointment created");
       } else {
-        await updateAppointment(appointmentId, details);
+        await updateAppointment(details.appointment_id, details);
         toast.success("Appointment updated");
       }
 
@@ -113,7 +100,7 @@ export function TableCellViewer({
   const handleDelete = async () => {
     try {
       setSaving(true);
-      await deleteAppointment(appointmentId);
+      await deleteAppointment(details.appointment_id);
       toast.success("Deleted");
       await refreshData();
       setOpen(false);
@@ -213,7 +200,7 @@ export function TableCellViewer({
             <FieldLabel>Date</FieldLabel>
             <Input
               type="date"
-              value={details?.date || ""}
+              value={details?.date ? details.date.split("T")[0] : ""}
               onChange={(e) => handleChange("date", e.target.value)}
               disabled={!isEditable}
             />

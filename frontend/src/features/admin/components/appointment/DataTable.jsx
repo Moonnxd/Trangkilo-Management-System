@@ -47,9 +47,17 @@ export function DataTable({ data = [], onNameClick }) {
       header: "Therapist",
     },
     {
-      accessorKey: "date",
-      header: "Date",
-    },
+  accessorKey: "date",
+  header: "Date",
+  cell: ({ getValue }) => {
+    const value = getValue();
+    return new Date(value).toLocaleDateString("en-PH", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  },
+},
     {
       accessorKey: "start_time",
       header: "Time",

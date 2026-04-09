@@ -7,16 +7,7 @@ import { IconPlus } from "@tabler/icons-react";
 
 import {
   Field,
-  FieldLabel,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-  FieldContent,
-  FieldTitle,
-} from "@/components/ui/field"
+} from "@/components/ui/field";
 
 import {
   Card,
@@ -42,7 +33,9 @@ function AdminAppointmentPage() {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("view");
-  const [appointmentId, setAppointmentId] = useState(null);
+
+  
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   useEffect(() => {
     fetchAppointments();
@@ -64,17 +57,18 @@ function AdminAppointmentPage() {
         <SiteHeader />
 
         <Card className="ml-4 mr-4 mt-4 p-2 ">
-                    <CardHeader>
-                        <span className="text-base font-semibold">Appointment</span>
-                    </CardHeader>
-                    <Field orientation="horizontal" className="sm:max-w-lg">
-                    <Input type="search" placeholder="Search by staff name, branch or role..." />
-                    <Button>Search</Button>
-                    <Button type="submit" form="form-rhf-demo">
-                        <IconPlus />Add Appointment
-                    </Button>
-                    </Field>
-                </Card>
+          <CardHeader>
+            <span className="text-base font-semibold">Appointment</span>
+          </CardHeader>
+
+          <Field orientation="horizontal" className="sm:max-w-lg">
+            <Input type="search" placeholder="Search..." />
+            <Button>Search</Button>
+            <Button>
+              <IconPlus /> Add Appointment
+            </Button>
+          </Field>
+        </Card>
 
         <div className="flex flex-col gap-4 py-4">
           <DataTable
@@ -82,7 +76,7 @@ function AdminAppointmentPage() {
             onNameClick={(row) => {
               setOpen(true);
               setMode("view");
-              setAppointmentId(row.appointment_id);
+              setSelectedAppointment(row);
             }}
           />
         </div>
@@ -92,7 +86,7 @@ function AdminAppointmentPage() {
           setOpen={setOpen}
           mode={mode}
           setMode={setMode}
-          appointmentId={appointmentId}
+          appointment={selectedAppointment}
           refreshData={fetchAppointments}
         />
       </SidebarInset>

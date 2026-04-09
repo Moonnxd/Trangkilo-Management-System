@@ -29,4 +29,38 @@ router.get("/", (req, res) => {
   });
 });
 
+/* Update Appointment */
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+
+  const {
+    client_name,
+    service,
+    therapist,
+    date,
+    start_time,
+    duration,
+    price,
+    status,
+  } = req.body;
+
+  const sql = `
+    UPDATE appointments
+    SET 
+      appointment_date = ?,
+      start_time = ?,
+      status = ?
+    WHERE appointment_id = ?
+  `;
+
+  db.query(
+    sql,
+    [date, start_time, status, id],
+    (err, result) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Appointment updated" });
+    }
+  );
+});
+
 export default router;
