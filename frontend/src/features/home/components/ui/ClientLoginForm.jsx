@@ -177,7 +177,7 @@ export function AdminLoginForm() {
         <FieldDescription className="text-center">
           <Label>
             Don’t have an account?{" "}
-            <span className="text-primary">Sign Up</span>
+            <span onClick={() => navigate("/signup")} className="text-primary">Sign Up</span>
           </Label>
         </FieldDescription>
       </CardFooter>

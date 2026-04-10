@@ -27,7 +27,10 @@ export function SignupForm({ className, ...props }) {
     contact_number: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    city: "",
+    zone: "",
+    barangay: ""
   });
 
   const [error, setError] = useState("");
@@ -53,7 +56,7 @@ export function SignupForm({ className, ...props }) {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/signup", {
+      const res = await fetch("http://localhost:5000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -67,6 +70,21 @@ export function SignupForm({ className, ...props }) {
         setError(data.message || "Signup failed");
       } else {
         setError("");
+
+        // RESET FORM
+        setForm({
+          first_name: "",
+          last_name: "",
+          gender: "",
+          contact_number: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          city: "",
+          zone: "",
+          barangay: ""
+        });
+
         console.log("Success:", data);
       }
 
@@ -93,34 +111,69 @@ export function SignupForm({ className, ...props }) {
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <Field>
-          <FieldLabel>First Name</FieldLabel>
-          <Input
-            id="first_name"
-            value={form.first_name}
-            onChange={handleChange}
-            placeholder="John"
-            required
-            className="bg-card"
-          />
+        <Field className="flex flex-row gap-4">
+          <div>
+            <FieldLabel>First Name</FieldLabel>
+            <Input
+              id="first_name"
+              value={form.first_name}
+              onChange={handleChange}
+              placeholder="John"
+              required
+              className="bg-card"
+            />
+          </div>
+
+          <div>
+            <FieldLabel>Last Name</FieldLabel>
+            <Input
+              id="last_name"
+              value={form.last_name}
+              onChange={handleChange}
+              placeholder="Doe"
+              required
+              className="bg-card"
+            />
+          </div>
         </Field>
 
-        <Field>
-          <FieldLabel>Last Name</FieldLabel>
-          <Input
-            id="last_name"
-            value={form.last_name}
-            onChange={handleChange}
-            placeholder="Doe"
-            required
-            className="bg-card"
-          />
+        <Field className="flex flex-row gap-4">
+          <div className='flex-1'>
+            <FieldLabel>City / Municipality</FieldLabel>
+            <Input
+              id="city"
+              value={form.city}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className='flex-1'>
+            <FieldLabel>Zone</FieldLabel>
+            <Input
+              id="zone"
+              value={form.zone}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </Field>
+
+        <div>
+          <FieldLabel>Barangay</FieldLabel>
+          <Input
+            id="barangay"
+            value={form.barangay}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
         <Field className="flex flex-row gap-4">
           <div className="flex-1">
             <FieldLabel>Gender</FieldLabel>
             <Select
+              value={form.gender}
               onValueChange={(value) =>
                 setForm({ ...form, gender: value })
               }
@@ -131,8 +184,8 @@ export function SignupForm({ className, ...props }) {
 
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -149,7 +202,7 @@ export function SignupForm({ className, ...props }) {
           </div>
         </Field>
 
-        <Field>
+        <div>
           <FieldLabel>Email</FieldLabel>
           <Input
             id="email"
@@ -160,9 +213,9 @@ export function SignupForm({ className, ...props }) {
             required
             className="bg-card"
           />
-        </Field>
+        </div>
 
-        <Field>
+        <div>
           <FieldLabel>Password</FieldLabel>
           <Input
             id="password"
@@ -175,9 +228,9 @@ export function SignupForm({ className, ...props }) {
           <FieldDescription>
             Must be at least 8 characters long.
           </FieldDescription>
-        </Field>
+        </div>
 
-        <Field>
+        <div>
           <FieldLabel>Confirm Password</FieldLabel>
           <Input
             id="confirmPassword"
@@ -190,7 +243,7 @@ export function SignupForm({ className, ...props }) {
           <FieldDescription>
             Please confirm your password.
           </FieldDescription>
-        </Field>
+        </div>
 
         <Field>
           <Button type="submit">Create Account</Button>
@@ -211,4 +264,4 @@ export function SignupForm({ className, ...props }) {
       </FieldGroup>
     </form>
   );
-} 
+}

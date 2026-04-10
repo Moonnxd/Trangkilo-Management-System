@@ -10,6 +10,7 @@ import roleRoutes from "./src/routes/roleRoutes.js"
 import branchRoutes from "./src/routes/branchRoutes.js"
 import appointmentRoutes from "./src/routes/appointmentRoutes.js";
 import serviceType from "./src/routes/serviceType.js";
+import authRoutes from "./src/routes/authRoutes.js";
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/serviceType", serviceType);
+
+app.use("/signup", authRoutes);
 
 app.use("/api/appointments", appointmentRoutes);
 
