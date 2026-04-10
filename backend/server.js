@@ -22,13 +22,13 @@ app.use("/serviceType", serviceType);
 app.use("/api/appointments", appointmentRoutes);
 
 //get staffs
-app.use("/api/staffs", staffRoutes);
+app.use("/staffs", staffRoutes);
 
 //get roles
 app.use("/api/roles", roleRoutes);
 
 //get branches
-app.use("/api/branches",branchRoutes);
+app.use("/branches",branchRoutes);
 
 // Test route
 app.get("/", (req, res) => {

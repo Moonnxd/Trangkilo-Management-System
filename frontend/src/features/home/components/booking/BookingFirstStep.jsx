@@ -31,7 +31,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
   const [selectedBranch, setSelectedBranch] = React.useState(null)
 
   React.useEffect(() => {
-    axios.get("http://localhost:3000/staffs")
+    axios.get("http://localhost:5000/staffs")
       .then(res => {
         let data = res.data
 
@@ -46,7 +46,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
   }, [filter])
 
   React.useEffect(() => {
-    axios.get("http://localhost:3000/branches")
+    axios.get("http://localhost:5000/branches")
       .then(res => {
         setBranches(res.data)
       })
