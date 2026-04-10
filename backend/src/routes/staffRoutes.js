@@ -3,142 +3,131 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-/* Get one Staff Info, assigned branch and role */
-router.get("/:id", (req, res) => {
-    const sql = "SELECT s.staff_id, s.first_name, s.last_name, s.middle_initial, b.branch_name, r.role_name, s.contact_number, s.email, s.gender, s.date_hired, s.specialization, s.status , s.remarks, s.branch_id, u.role_id FROM staffs s LEFT JOIN users u ON s.user_id = u.user_id LEFT JOIN roles r ON u.role_id = r.role_id LEFT JOIN branches b ON s.branch_id = b.branch_id WHERE staff_id = ?";
+/* Get one Staff */
+router.get("/:id", async (req, res) => {
+  try {
+    const sql = `SELECT s.staff_id, s.first_name, s.last_name, s.middle_initial, b.branch_name, r.role_name, s.contact_number, s.email, s.gender, s.date_hired, s.specialization, s.status , s.remarks, s.branch_id, u.role_id 
+    FROM staffs s 
+    LEFT JOIN users u ON s.user_id = u.user_id 
+    LEFT JOIN roles r ON u.role_id = r.role_id 
+    LEFT JOIN branches b ON s.branch_id = b.branch_id 
+    WHERE staff_id = ?`;
 
-    db.query(sql, [req.params.id], (err, result) => {
-      if (err) return res.status(500).json(err);
-      res.json(result[0]);
-    });
-})
+    const [result] = await db.query(sql, [req.params.id]);
+    res.json(result[0]);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-/* Display Staffs Summary Details */
-router.get("/", (req, res) => {
-  const sql = "SELECT s.staff_id ,CONCAT(s.first_name, ' ', s.last_name) AS name, b.branch_name, r.role_name, s.status , s.contact_number, s.email FROM staffs s LEFT JOIN users u ON s.user_id = u.user_id LEFT JOIN roles r ON u.role_id = r.role_id LEFT JOIN branches b ON s.branch_id = b.branch_id";
+/* Get all staffs */
+router.get("/", async (req, res) => {
+  try {
+    const sql = `SELECT s.staff_id ,CONCAT(s.first_name, ' ', s.last_name) AS name, b.branch_name, r.role_name, s.status , s.contact_number, s.email 
+    FROM staffs s 
+    LEFT JOIN users u ON s.user_id = u.user_id 
+    LEFT JOIN roles r ON u.role_id = r.role_id 
+    LEFT JOIN branches b ON s.branch_id = b.branch_id`;
 
-  db.query(sql, (err, result) => {  
-    if (err) return res.status(500).json(err);
+    const [result] = await db.query(sql);
     res.json(result);
-  });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-/* Add new Staff */
-router.post("/", (req, res) => {
-  const {
-    first_name,
-    last_name,
-    middle_initial,
-    contact_number,
-    email,
-    gender,
-    specialization,
-    status,
-    remarks,
-    branch_id,
-    role_id,
-    date_hired,
-  } = req.body;
+/* Add Staff */
+router.post("/", async (req, res) => {
+  const connection = await db.getConnection();
 
-  const insertUserSql = `
-    INSERT INTO users (email, role_id)
-    VALUES (?, ?)
-  `;
+  try {
+    const {
+      first_name,
+      last_name,
+      middle_initial,
+      contact_number,
+      email,
+      gender,
+      specialization,
+      status,
+      remarks,
+      branch_id,
+      role_id,
+      date_hired,
+    } = req.body;
 
-  const insertStaffSql = `
-    INSERT INTO staffs 
-    (first_name, last_name, middle_initial, contact_number, email, gender, specialization, status, remarks, branch_id, date_hired, user_id, created_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-  `;
+    await connection.beginTransaction();
 
-  db.beginTransaction((err) => {
-    if (err) return res.status(500).json(err);
+    const [userResult] = await connection.query(
+      `INSERT INTO users (email, role_id) VALUES (?, ?)`,
+      [email, role_id]
+    );
 
-    // STEP 1: INSERT USER
-    db.query(insertUserSql, [email, role_id], (err, userResult) => {
-      if (err) {
-        return db.rollback(() => res.status(500).json(err));
-      }
+    const userId = userResult.insertId;
 
-      const userId = userResult.insertId;
+    const [staffResult] = await connection.query(
+      `INSERT INTO staffs 
+      (first_name, last_name, middle_initial, contact_number, email, gender, specialization, status, remarks, branch_id, date_hired, user_id, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+      [
+        first_name,
+        last_name,
+        middle_initial,
+        contact_number,
+        email,
+        gender,
+        specialization,
+        status,
+        remarks,
+        branch_id,
+        date_hired,
+        userId,
+      ]
+    );
 
-      // STEP 2: INSERT STAFF with user_id
-      db.query(
-        insertStaffSql,
-        [
-          first_name,
-          last_name,
-          middle_initial,
-          contact_number,
-          email,
-          gender,
-          specialization,
-          status,
-          remarks,
-          branch_id,
-          date_hired,
-          userId,
-        ],
-        (err, staffResult) => {
-          if (err) {
-            console.log(db.query);
-            return db.rollback(() => res.status(500).json(err));   
-          }
+    await connection.commit();
 
-          // SUCCESS → COMMIT
-          db.commit((err) => {
-            if (err) {
-              return db.rollback(() => res.status(500).json(err));
-            }
-
-            res.json({
-              message: "Staff created successfully",
-              staff_id: staffResult.insertId,
-              user_id: userId,
-            });
-          });
-        }
-      );
+    res.json({
+      message: "Staff created successfully",
+      staff_id: staffResult.insertId,
+      user_id: userId,
     });
-  });
+
+  } catch (err) {
+    await connection.rollback();
+    res.status(500).json(err);
+  } finally {
+    connection.release();
+  }
 });
 
-/* update staff details */
-router.put("/:id", (req, res) => {
-  const {
-    first_name,
-    last_name,
-    middle_initial,
-    contact_number,
-    email,
-    gender,
-    specialization,
-    status,
-    remarks,
-    branch_id,
-    role_id,
-    date_hired,
-  } = req.body;
+/* Update Staff */
+router.put("/:id", async (req, res) => {
+  const connection = await db.getConnection();
 
-  const staffId = req.params.id;
+  try {
+    const staffId = req.params.id;
+    const {
+      first_name,
+      last_name,
+      middle_initial,
+      contact_number,
+      email,
+      gender,
+      specialization,
+      status,
+      remarks,
+      branch_id,
+      role_id,
+      date_hired,
+    } = req.body;
 
-  const updateStaffSql = `
-    UPDATE staffs 
-    SET first_name=?, last_name=?, middle_initial=?, contact_number=?, email=?, gender=?, specialization=?, status=?, remarks=?, branch_id=?, date_hired=?, updated_at=NOW()
-    WHERE staff_id=?
-  `;
+    await connection.beginTransaction();
 
-  const updateUserSql = `
-    UPDATE users 
-    SET role_id=?
-    WHERE user_id = (SELECT user_id FROM staffs WHERE staff_id=?)
-  `;
-
-  db.beginTransaction((err) => {
-    if (err) return res.status(500).json(err);
-
-    db.query(
-      updateStaffSql,
+    await connection.query(
+      `UPDATE staffs 
+       SET first_name=?, last_name=?, middle_initial=?, contact_number=?, email=?, gender=?, specialization=?, status=?, remarks=?, branch_id=?, date_hired=?, updated_at=NOW()
+       WHERE staff_id=?`,
       [
         first_name,
         last_name,
@@ -152,38 +141,36 @@ router.put("/:id", (req, res) => {
         branch_id,
         date_hired,
         staffId,
-      ],
-      (err) => {
-        if (err) {
-          return db.rollback(() => res.status(500).json(err));
-        }
-
-        db.query(updateUserSql, [role_id, staffId], (err) => {
-          if (err) {
-            return db.rollback(() => res.status(500).json(err));
-          }
-
-          db.commit((err) => {
-            if (err) {
-              return db.rollback(() => res.status(500).json(err));
-            }
-
-            res.json({ message: "Staff updated successfully" });
-          });
-        });
-      }
+      ]
     );
-  });
+
+    await connection.query(
+      `UPDATE users 
+       SET role_id=?
+       WHERE user_id = (SELECT user_id FROM staffs WHERE staff_id=?)`,
+      [role_id, staffId]
+    );
+
+    await connection.commit();
+
+    res.json({ message: "Staff updated successfully" });
+
+  } catch (err) {
+    await connection.rollback();
+    res.status(500).json(err);
+  } finally {
+    connection.release();
+  }
 });
 
-/* delete staff */
-router.delete("/:id", (req, res) => {
-  const sql = "DELETE FROM staffs WHERE staff_id=?";
-
-  db.query(sql, [req.params.id], (err, result) => {
-    if (err) return res.status(500).json(err);
+/* Delete Staff */
+router.delete("/:id", async (req, res) => {
+  try {
+    await db.query("DELETE FROM staffs WHERE staff_id=?", [req.params.id]);
     res.json({ message: "Staff deleted successfully" });
-  });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 export default router;

@@ -3,13 +3,14 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+  try {
     const sql = "SELECT role_id, role_name FROM roles";
-
-    db.query(sql, (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.json(result);
-    });
+    const [result] = await db.query(sql);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 export default router;
