@@ -1,12 +1,12 @@
-import Toggle from "@/components/ui/mode-toggle.jsx"
-import { AdminLoginForm } from "@/components/ui/ClientLoginForm"
-import imgLogo from "@/assets/LoginLogo.png"
+// import Toggle from "@/components/ui/mode-toggle.jsx"
+import { AdminLoginForm } from "@/features/home/components/ui/ClientLoginForm"
+import imgLogo from "@/assets/images/landingLogo.png"
 
 function AdminLoginPage() {
   return (
     <div className="bg-warning text-warning-foreground relative flex min-h-screen items-center justify-center">
       <div className="absolute top-4 right-4">
-        <Toggle />
+        {/* <Toggle /> */}
       </div>
       <img
         src={imgLogo}

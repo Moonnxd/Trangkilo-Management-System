@@ -10,6 +10,8 @@ import AdminOverviewPage from "@/features/admin/pages/AdminOverviewPage.jsx";
 import AdminStaffPage from "../features/admin/pages/AdminStaffPage.jsx";
 import AdminBranchesPage from "../features/admin/pages/AdminBranchesPage.jsx";
 import BookingPage from "@/features/home/pages/Booking"
+import SignUp from "@/features/home/pages/SignUp"
+import ClientLogIn from "@/features/home/pages/LoginPage"
 
 export default function AppRoutes() {
     return (
@@ -17,6 +19,8 @@ export default function AppRoutes() {
             <Routes>
                 <Route path="/" element={<HomePage />}></Route>
                 {/* <Route path="/aboutus" element={<AboutUs />}></Route> */}
+                <Route path="/clientlogin" element={<ClientLogIn/>}/>
+                <Route path="/signup" element={<SignUp/>}/>
                 <Route path="/booking" element={<BookingPage/>}/>
                 <Route path="/admin" element={<AdminLoginPage />}></Route>
                 <Route path="/admin/overview" element={<AdminOverviewPage />}></Route>

@@ -1,6 +1,6 @@
 import background from "@/assets/background.png"
 import { Button } from "@/components/ui/button"
-import { PopUp } from "@/features/home/components/popUp"
+import PopUp from "../components/ui/popUp.jsx"
 import { useState } from "react"
 
 export default function Body() {
