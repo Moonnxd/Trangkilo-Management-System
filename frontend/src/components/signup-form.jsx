@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 import {
   Field,
   FieldDescription,
@@ -19,6 +20,8 @@ import {
 } from "@/components/ui/select"
 
 export function SignupForm({ className, ...props }) {
+
+  const navigate = useNavigate()
 
   const [form, setForm] = useState({
     first_name: "",
@@ -257,7 +260,7 @@ export function SignupForm({ className, ...props }) {
           </Button>
 
           <FieldDescription className="px-6 text-center">
-            Already have an account? <a href="#">Sign in</a>
+            Already have an account? <span onClick={() => navigate("/clientlogin")} href="#">Sign in</span>
           </FieldDescription>
         </Field>
 

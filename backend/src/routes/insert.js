@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import { db } from "../db.js";
+
 const router = express.Router();
-const db = require("../db");
 
 router.post("/", async (req, res) => {
   const data = req.body;
@@ -40,7 +41,6 @@ router.post("/", async (req, res) => {
       throw new Error("Invalid service type");
     }
 
-
     let totalDuration = 0;
 
     for (const s of data.services) {
@@ -53,7 +53,6 @@ router.post("/", async (req, res) => {
 
     const end_time = start.toTimeString().slice(0, 8);
 
- 
     const [appointmentResult] = await connection.query(
       `INSERT INTO appointments 
       (customer_id, therapist_id, service_type_id, branch_id, appointment_date, start_time, end_time, duration_minutes, appointment_code)
@@ -72,7 +71,6 @@ router.post("/", async (req, res) => {
     );
 
     const appointment_id = appointmentResult.insertId;
-
 
     if (data.serviceType !== "Branch Visit") {
       await connection.query(
@@ -94,7 +92,6 @@ router.post("/", async (req, res) => {
       );
     }
 
-
     for (const service of data.services) {
       await connection.query(
         `INSERT INTO appointment_services 
@@ -110,7 +107,6 @@ router.post("/", async (req, res) => {
       );
     }
 
- 
     await connection.commit();
 
     res.json({
@@ -133,4 +129,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

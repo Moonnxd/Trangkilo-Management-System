@@ -11,6 +11,8 @@ import branchRoutes from "./src/routes/branchRoutes.js"
 import appointmentRoutes from "./src/routes/appointmentRoutes.js";
 import serviceType from "./src/routes/serviceType.js";
 import authRoutes from "./src/routes/authRoutes.js";
+import loginRouter from "./src/routes/loginRoutes.js";
+import insertRoutes from "./src/routes/insert.js";
 
 const app = express();
 
@@ -20,7 +22,11 @@ app.use(express.json());
 
 app.use("/serviceType", serviceType);
 
+app.use("/loginroute", loginRouter);
+
 app.use("/signup", authRoutes);
+
+app.use("/booking", insertRoutes);
 
 app.use("/api/appointments", appointmentRoutes);
 
