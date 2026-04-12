@@ -30,6 +30,8 @@ export default function BookingFirstStep({ formData, setFormData }) {
   const [branches, setBranches] = React.useState([])
   const [selectedBranch, setSelectedBranch] = React.useState(null)
 
+  const [errors, setErrors] = React.useState({});
+
   React.useEffect(() => {
     axios.get("http://localhost:5000/staffs/therapist")
       .then(res => {
@@ -60,7 +62,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
           <form>
             <div className="flex flex-col gap-6">
 
-              {/* BRANCH */}
+=
               <div className="flex gap-2">
                 <Label className="font-bold">Select Branch:</Label>
 
@@ -118,7 +120,13 @@ export default function BookingFirstStep({ formData, setFormData }) {
                       type="radio"
                       name="therapist-type"
                       defaultChecked
-                      onChange={() => setFilter("any")}
+                      onChange={() => {
+                        setFilter("any")
+                        setFormData(prev => ({
+                          ...prev,
+                          therapist_type: "Any"
+                        }))
+                      }}
                     />
                     <Label htmlFor="any">Any</Label>
                   </div>
@@ -128,7 +136,13 @@ export default function BookingFirstStep({ formData, setFormData }) {
                       id="male"
                       type="radio"
                       name="therapist-type"
-                      onChange={() => setFilter("male")}
+                      onChange={() => {
+                        setFilter("male")
+                        setFormData(prev => ({
+                          ...prev,
+                          therapist_type: "Male"
+                        }))
+                      }}
                     />
                     <Label htmlFor="male">Male</Label>
                   </div>
@@ -138,7 +152,13 @@ export default function BookingFirstStep({ formData, setFormData }) {
                       id="female"
                       type="radio"
                       name="therapist-type"
-                      onChange={() => setFilter("female")}
+                      onChange={() => {
+                        setFilter("female")
+                        setFormData(prev => ({
+                          ...prev,
+                          therapist_type: "Female"
+                        }))
+                      }}
                     />
                     <Label htmlFor="female">Female</Label>
                   </div>

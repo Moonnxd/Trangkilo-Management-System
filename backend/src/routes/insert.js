@@ -55,14 +55,16 @@ router.post("/", async (req, res) => {
 
     const therapist_id = data.therapist_id;
     const branch_id = data.branch.branch_id;
+    const therapist_type = data.therapist_type;
 
     const [appointmentResult] = await connection.query(
       `INSERT INTO appointments 
-      (customer_id, therapist_id, service_type_id, branch_id, appointment_location_id, appointment_date, start_time, end_time, duration_minutes, appointment_code)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (customer_id, therapist_id, therapist_type, service_type_id, branch_id, appointment_location_id, appointment_date, start_time, end_time, duration_minutes, appointment_code)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         customer_id,
         therapist_id,
+        therapist_type,
         service_type_id,
         branch_id,
         null,

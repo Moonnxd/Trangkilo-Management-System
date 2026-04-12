@@ -32,6 +32,7 @@ export default function HorizontalNonLinearStepper() {
   const [formData, setFormData] = useState({
     serviceType: "",
     branch: "",
+    therapist_type: "",
     therapist_id: "",
     date: "",
     time: "",
@@ -79,6 +80,38 @@ export default function HorizontalNonLinearStepper() {
   }
 
   const handleComplete = async () => {
+      if (activeStep === 0) {
+      if (
+        !formData.branch ||
+        !formData.date ||
+        !formData.time
+      ) {
+        alert("Please complete all required fields in Step 1")
+        return
+      }
+    }
+
+    if (activeStep === 1) {
+      if (formData.services.length === 0) {
+        alert("Please select at least one service")
+        return
+      }
+    }
+
+    if (activeStep === 2) {
+      if (
+        !formData.customer.firstName ||
+        !formData.customer.lastName ||
+        !formData.customer.mobile ||
+        !formData.customer.email ||
+        !formData.customer.gender
+      ) {
+        alert("Please complete customer information")
+        return
+      }
+    }
+
+
     const updatedCompleted = {
       ...completed,
       [activeStep]: true,

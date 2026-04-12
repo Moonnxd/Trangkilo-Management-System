@@ -121,7 +121,6 @@ export function SignupForm({ className, ...props }) {
               id="first_name"
               value={form.first_name}
               onChange={handleChange}
-              placeholder="John"
               required
               className="bg-card"
             />
@@ -133,7 +132,6 @@ export function SignupForm({ className, ...props }) {
               id="last_name"
               value={form.last_name}
               onChange={handleChange}
-              placeholder="Doe"
               required
               className="bg-card"
             />

@@ -1,11 +1,13 @@
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Separator } from "@/components/ui/separator";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { toast } from "sonner";
-import { updateAppointment } from "@/api/appointmentApi";
+import { updateAppointment, deleteAppointment } from "@/api/appointmentApi";
+import { Label } from "@/components/ui/label"
+import { DialogDemo } from "./DialogDemo"
 
 import {
   Select,
@@ -82,6 +84,7 @@ export function TableCellViewer({
     }
   }, [open, appointment, mode]);
 
+
   const handleSave = async () => {
     if (!details) return;
 
@@ -106,19 +109,27 @@ export function TableCellViewer({
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      setSaving(true);
-      await deleteAppointment(details.appointment_id);
-      toast.success("Deleted");
-      await refreshData();
-      setOpen(false);
-    } catch (err) {
-      toast.error("Delete failed");
-    } finally {
-      setSaving(false);
-    }
-  };
+const handleDelete = async () => {
+  if (!details?.appointment_id) {
+    toast.error("No appointment selected");
+    return;
+  }
+
+  try {
+    setSaving(true);
+
+    await deleteAppointment(details.appointment_id);
+
+    toast.success("Deleted");
+    await refreshData();
+    setOpen(false);
+  } catch (err) {
+    console.error(err);
+    toast.error("Delete failed");
+  } finally {
+    setSaving(false);
+  }
+};
 
   return (
     <Drawer
@@ -206,14 +217,41 @@ export function TableCellViewer({
             
           </Field>
 
-          <Field>
-            <FieldLabel>Service</FieldLabel>
+          <Field className='mt-10'>
+            <FieldSeparator>Information</FieldSeparator>
+          </Field>
+
+          <div>
+            <FieldLabel>Treatment</FieldLabel>
             <Input
               value={details?.service || ""}
               onChange={(e) => handleChange("service", e.target.value)}
               disabled={!isEditable}
             />
+          </div>
+
+          <div className='flex gap-2'>
+          <Field>
+            <FieldLabel>Therapist Type</FieldLabel>
+                        
+          <Select
+            value={details?.therapist_type ?? "Any"}
+            onValueChange={(value) => handleChange("therapist_type", value)}
+          >
+            <SelectTrigger disabled={!isEditable}>
+              <SelectValue placeholder="" />
+            </SelectTrigger>
+                        
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Any">Any</SelectItem>
+                <SelectItem value="Male">Male</SelectItem>
+                <SelectItem value="Female">Female</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           </Field>
+          
 
           <Field>
             <FieldLabel>Therapist</FieldLabel>
@@ -229,10 +267,8 @@ export function TableCellViewer({
             
               <SelectContent>
                 <SelectGroup>
-                  {/* Default when no therapist */}
                   <SelectItem value="none">No therapist</SelectItem>
             
-                  {/* Current therapist (if exists) */}
                   {details?.therapist && (
                     <SelectItem value={details.therapist}>
                       {details.therapist}
@@ -242,6 +278,8 @@ export function TableCellViewer({
               </SelectContent>
             </Select>
           </Field>
+          </div>
+
 
           <div className="flex gap-2">
           <Field>
@@ -305,6 +343,23 @@ export function TableCellViewer({
               </SelectGroup>
             </SelectContent>
           </Select>
+        </Field>
+
+        <Field className='mt-10'>
+          <FieldSeparator></FieldSeparator>
+          </Field>
+
+        <Field>
+          <FieldLabel>Service Type</FieldLabel>
+          <Input
+              value={details?.service_type_name || ""}
+              onChange={(e) => handleChange("price", e.target.value)}
+              disabled={!isEditable}
+            />
+            {/* <Button variant='ghost'>See more details</Button> */}
+            <div className='flex justify-end'>
+              <DialogDemo appointment={details}/>
+            </div>
         </Field>
 
         </div>
