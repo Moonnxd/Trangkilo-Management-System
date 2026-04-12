@@ -5,6 +5,8 @@ const API_URL = "http://localhost:5000/api/staffs";
 //display staffs summary details
 export const getStaffs = () => axios.get(API_URL);
 
+export const getTherapist = () => axios.get(API_URL/"therapist");
+
 //get staff info, assigned branch and assigned role
 export const getStaff = (id) => axios.get(`${API_URL}/${id}`);
 

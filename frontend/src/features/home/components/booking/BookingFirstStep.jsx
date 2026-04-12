@@ -31,7 +31,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
   const [selectedBranch, setSelectedBranch] = React.useState(null)
 
   React.useEffect(() => {
-    axios.get("http://localhost:5000/staffs")
+    axios.get("http://localhost:5000/staffs/therapist")
       .then(res => {
         let data = res.data
 
@@ -39,8 +39,8 @@ export default function BookingFirstStep({ formData, setFormData }) {
           data = data.filter(item => item.gender.toLowerCase() === filter)
         }
 
-        const names = data.map(item => item.first_name)
-        setTherapist(names)
+        
+        setTherapist(data)
       })
       .catch(err => console.log(err))
   }, [filter])
@@ -66,6 +66,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
 
                 <Combobox
                   items={branches.map(b => b.branch_name)}
+                  required
                   onValueChange={(value) => {
                     const found = branches.find(b => b.branch_name === value)
 
@@ -148,8 +149,8 @@ export default function BookingFirstStep({ formData, setFormData }) {
                   </div>
                 </div>
 
-                <Combobox
-                  items={therapist}
+                {/* <Combobox
+                  items={therapist.map(t => t.first_name)}
                   onValueChange={(value) =>
                     setFormData(prev => ({
                       ...prev,
@@ -171,7 +172,38 @@ export default function BookingFirstStep({ formData, setFormData }) {
                       )}
                     </ComboboxList>
                   </ComboboxContent>
-                </Combobox>
+                </Combobox> */}
+
+
+
+                <Combobox
+                items={therapist.map(t => t.first_name)}
+                onValueChange={(value) => {
+                  const selected = therapist.find(t => t.first_name === value)
+                  
+                  
+                  // console.log("Selected therapist:", selected)
+                  setFormData(prev => ({
+                    ...prev,
+                    therapist_id: selected.staff_id
+                  }))
+                }}
+              >
+                <ComboboxInput
+                  className="w-[60%] xl:w-[20%] 2xl:w-[20%]"
+                  placeholder="Search / Select"
+                />
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
               </div>
 
             </div>
@@ -186,6 +218,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
               <Label className="font-bold">Select Date</Label>
               <Calendar
                 mode="single"
+                required
                 selected={date}
                 onSelect={(value) => {
                   setDate(value)

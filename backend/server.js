@@ -13,6 +13,7 @@ import serviceType from "./src/routes/serviceType.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import loginRouter from "./src/routes/loginRoutes.js";
 import insertRoutes from "./src/routes/insert.js";
+import service from "./src/routes/service.js";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/serviceType", serviceType);
+
+app.use("/services", service);
 
 app.use("/loginroute", loginRouter);
 

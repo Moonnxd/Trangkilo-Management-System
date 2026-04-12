@@ -62,6 +62,7 @@ export default function Location({ serviceType, formData, setFormData }) {
             </Label>
             <Input
               value={formData.location.city}
+              required
               onChange={(e) => updateLocation("city", e.target.value)}
               disabled={isHotel}
             />
@@ -74,6 +75,7 @@ export default function Location({ serviceType, formData, setFormData }) {
             <Input
               value={formData.location.barangay}
               onChange={(e) => updateLocation("barangay", e.target.value)}
+              required
               disabled={isHotel}
             />
           </div>
@@ -94,6 +96,7 @@ export default function Location({ serviceType, formData, setFormData }) {
             <Input
               value={formData.location.zone}
               onChange={(e) => updateLocation("zone", e.target.value)}
+              required
               disabled={isHotel}
             />
           </div>
@@ -114,6 +117,7 @@ export default function Location({ serviceType, formData, setFormData }) {
             <Input
               value={formData.location.hotelName}
               onChange={(e) => updateLocation("hotelName", e.target.value)}
+              required
               disabled={isHome}
             />
           </div>
@@ -125,6 +129,7 @@ export default function Location({ serviceType, formData, setFormData }) {
             <Input
               value={formData.location.roomNumber}
               onChange={(e) => updateLocation("roomNumber", e.target.value)}
+              required
               disabled={isHome}
             />
           </div>

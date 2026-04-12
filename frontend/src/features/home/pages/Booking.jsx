@@ -32,7 +32,7 @@ export default function HorizontalNonLinearStepper() {
   const [formData, setFormData] = useState({
     serviceType: "",
     branch: "",
-    therapist: "",
+    therapist_id: "",
     date: "",
     time: "",
     services: [],
@@ -97,7 +97,7 @@ export default function HorizontalNonLinearStepper() {
 
         console.log("Submitting:", finalData)
 
-        const response = await axios.post("http://localhost:3000/booking", finalData)
+        const response = await axios.post("http://localhost:5000/booking", finalData)
 
         console.log(response.data);
       } catch (err) {

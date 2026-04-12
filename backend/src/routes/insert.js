@@ -53,15 +53,19 @@ router.post("/", async (req, res) => {
 
     const end_time = start.toTimeString().slice(0, 8);
 
+    const therapist_id = data.therapist_id;
+    const branch_id = data.branch.branch_id;
+
     const [appointmentResult] = await connection.query(
       `INSERT INTO appointments 
-      (customer_id, therapist_id, service_type_id, branch_id, appointment_date, start_time, end_time, duration_minutes, appointment_code)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (customer_id, therapist_id, service_type_id, branch_id, appointment_location_id, appointment_date, start_time, end_time, duration_minutes, appointment_code)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         customer_id,
-        data.therapist,
+        therapist_id,
         service_type_id,
-        data.branch || null,
+        branch_id,
+        null,
         data.date,
         data.time,
         end_time,
@@ -72,8 +76,10 @@ router.post("/", async (req, res) => {
 
     const appointment_id = appointmentResult.insertId;
 
+    let appointment_location_id = null;
+
     if (data.serviceType !== "Branch Visit") {
-      await connection.query(
+      const [locationResult] = await connection.query(
         `INSERT INTO appointment_locations 
         (appointment_id, house_number, zone, barangay, city, province, hotel_name, room_number, landmark, notes)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -90,7 +96,19 @@ router.post("/", async (req, res) => {
           data.location.note
         ]
       );
+
+      appointment_location_id = locationResult.insertId;
     }
+
+    if (appointment_location_id) {
+        await connection.query(
+          `UPDATE appointments 
+           SET appointment_location_id = ? 
+           WHERE appointment_id = ?`,
+          [appointment_location_id, appointment_id]
+        );
+      }
+
 
     for (const service of data.services) {
       await connection.query(

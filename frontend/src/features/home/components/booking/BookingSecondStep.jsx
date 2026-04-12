@@ -20,7 +20,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/services")
+      .get("http://localhost:5000/services")
       .then((res) => {
         setServices(res.data)
       })

@@ -3,6 +3,18 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
+router.get("/therapist", async (req, res) => {
+  try {
+    const sql = `SELECT * FROM staffs`;
+
+    const [result] = await db.query(sql);
+    res.json(result);
+    
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 /* Get one Staff */
 router.get("/:id", async (req, res) => {
   try {
@@ -35,6 +47,9 @@ router.get("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// get therapist name
+
 
 /* Add Staff */
 router.post("/", async (req, res) => {
