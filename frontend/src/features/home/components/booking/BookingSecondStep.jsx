@@ -19,8 +19,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
   const [selectedServices, setSelectedServices] = useState([])
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/services")
+    axios.get("/services")
       .then((res) => {
         setServices(res.data)
       })

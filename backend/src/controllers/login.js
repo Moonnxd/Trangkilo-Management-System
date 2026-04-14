@@ -1,4 +1,4 @@
-import { db } from "../db.js";
+import { db } from "../connection/db.js";
 import bcrypt from "bcrypt";
 
 export const login = async (req, res) => {
@@ -13,7 +13,7 @@ export const login = async (req, res) => {
 
     const [customerRows] = await db.query(
       `SELECT * FROM customers WHERE email = ? OR contact_number = ?`,
-      [loginValue, loginValue]
+      [loginValue, loginValue],
     );
 
     if (customerRows.length === 0) {
@@ -27,10 +27,9 @@ export const login = async (req, res) => {
     }
 
     // get user credentials
-    const [userRows] = await db.query(
-      `SELECT * FROM users WHERE user_id = ?`,
-      [customer.user_id]
-    );
+    const [userRows] = await db.query(`SELECT * FROM users WHERE user_id = ?`, [
+      customer.user_id,
+    ]);
 
     const user = userRows[0];
 
@@ -45,10 +44,9 @@ export const login = async (req, res) => {
       user: {
         customer_id: customer.customer_id,
         name: `${customer.first_name} ${customer.last_name}`,
-        role_id: user.role_id
-      }
+        role_id: user.role_id,
+      },
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

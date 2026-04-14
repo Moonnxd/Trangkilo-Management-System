@@ -358,7 +358,9 @@ const handleDelete = async () => {
             />
             {/* <Button variant='ghost'>See more details</Button> */}
             <div className='flex justify-end'>
-              <DialogDemo appointment={details}/>
+              {(details?.service_type_name === "Hotel Service" || details?.service_type_name === "Home Service") && (
+                <DialogDemo appointment={details}/>
+              )}
             </div>
         </Field>
 

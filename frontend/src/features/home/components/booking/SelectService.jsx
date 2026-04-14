@@ -31,7 +31,7 @@ export default function SelectService({ close, setServiceType }) {
 }
 
 useEffect(() => {
-  axios.get("http://localhost:5000/serviceType")
+  axios.get("/serviceType")
     .then(res => {
       // convert objects to array of names
       const names = res.data.map(item => item.service_type_name)

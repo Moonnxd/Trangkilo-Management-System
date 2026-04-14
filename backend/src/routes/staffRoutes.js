@@ -1,5 +1,5 @@
 import express from "express";
-import { db } from "../db.js";
+import { db } from "../connection/db.js";
 
 const router = express.Router();
 
@@ -9,7 +9,6 @@ router.get("/therapist", async (req, res) => {
 
     const [result] = await db.query(sql);
     res.json(result);
-    
   } catch (err) {
     res.status(500).json(err);
   }
@@ -50,7 +49,6 @@ router.get("/", async (req, res) => {
 
 // get therapist name
 
-
 /* Add Staff */
 router.post("/", async (req, res) => {
   const connection = await db.getConnection();
@@ -75,7 +73,7 @@ router.post("/", async (req, res) => {
 
     const [userResult] = await connection.query(
       `INSERT INTO users (email, role_id) VALUES (?, ?)`,
-      [email, role_id]
+      [email, role_id],
     );
 
     const userId = userResult.insertId;
@@ -97,7 +95,7 @@ router.post("/", async (req, res) => {
         branch_id,
         date_hired,
         userId,
-      ]
+      ],
     );
 
     await connection.commit();
@@ -107,7 +105,6 @@ router.post("/", async (req, res) => {
       staff_id: staffResult.insertId,
       user_id: userId,
     });
-
   } catch (err) {
     await connection.rollback();
     res.status(500).json(err);
@@ -156,20 +153,19 @@ router.put("/:id", async (req, res) => {
         branch_id,
         date_hired,
         staffId,
-      ]
+      ],
     );
 
     await connection.query(
       `UPDATE users 
        SET role_id=?
        WHERE user_id = (SELECT user_id FROM staffs WHERE staff_id=?)`,
-      [role_id, staffId]
+      [role_id, staffId],
     );
 
     await connection.commit();
 
     res.json({ message: "Staff updated successfully" });
-
   } catch (err) {
     await connection.rollback();
     res.status(500).json(err);

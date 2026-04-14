@@ -1,5 +1,5 @@
 import express from "express";
-import { db } from "../db.js";
+import { db } from "../connection/db.js";
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: "Failed to fetch services"
+      error: "Failed to fetch services",
     });
   }
 });

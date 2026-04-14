@@ -1,5 +1,5 @@
 import express from "express";
-import { db } from "../db.js";
+import { db } from "../connection/db.js";
 
 const router = express.Router();
 
@@ -71,23 +71,22 @@ router.delete("/:id", async (req, res) => {
 
     await connection.query(
       `DELETE FROM appointment_services WHERE appointment_id = ?`,
-      [id]
+      [id],
     );
 
     await connection.query(
       `DELETE FROM appointment_locations WHERE appointment_id = ?`,
-      [id]
+      [id],
     );
 
     await connection.query(
       `DELETE FROM appointments WHERE appointment_id = ?`,
-      [id]
+      [id],
     );
 
     await connection.commit();
 
     res.json({ message: "Appointment and related data deleted successfully" });
-
   } catch (err) {
     await connection.rollback();
 
@@ -95,9 +94,8 @@ router.delete("/:id", async (req, res) => {
 
     res.status(500).json({
       error: "Delete failed",
-      details: err.message
+      details: err.message,
     });
-
   } finally {
     connection.release();
   }

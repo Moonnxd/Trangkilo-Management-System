@@ -64,10 +64,19 @@ export function SignupForm({ className, ...props }) {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify(form)
       });
 
       const data = await res.json();
+
+      if (res.ok) {
+  // SUCCESS → redirect
+  window.location.href = "/clientlogin"; // or "/login"
+} else {
+  // ERROR → show message
+  console.log(data.message);
+}
 
       if (!res.ok) {
         setError(data.message || "Signup failed");

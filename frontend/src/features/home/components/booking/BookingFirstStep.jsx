@@ -33,7 +33,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
   const [errors, setErrors] = React.useState({});
 
   React.useEffect(() => {
-    axios.get("http://localhost:5000/staffs/therapist")
+    axios.get("/staffs/therapist")
       .then(res => {
         let data = res.data
 
@@ -48,7 +48,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
   }, [filter])
 
   React.useEffect(() => {
-    axios.get("http://localhost:5000/branches")
+    axios.get("/branches")
       .then(res => {
         setBranches(res.data)
       })
