@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { AdminSideBar } from "../components/AdminSideBar";
 import { DataTable } from "@/features/admin/components/appointment/DataTable";
 import { TableCellViewer } from "@/features/admin/components/appointment/TableCellViewer";
@@ -33,22 +33,43 @@ function AdminAppointmentPage() {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("view");
-
-  
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const intervalRef = useRef(null); 
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
-  const fetchAppointments = async () => {
+  const fetchAppointments = useCallback(async () => {
     try {
       const res = await getAppointments();
       setData(res.data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
+
+  const startPolling = useCallback(() => {
+    fetchAppointments();
+    intervalRef.current = setInterval(fetchAppointments, 500000000000);
+  }, [fetchAppointments]);
+
+  const stopPolling = useCallback(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      document.visibilityState === "hidden"
+        ? stopPolling()
+        : startPolling();
+    };
+
+    startPolling(); 
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      stopPolling();
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [startPolling, stopPolling]);
 
   return (
     <SidebarProvider style={styleObject}>
@@ -72,7 +93,7 @@ function AdminAppointmentPage() {
 
         <div className="flex flex-col gap-4 py-4">
           <DataTable
-            data={data}
+            data={data.slice().reverse()}
             onNameClick={(row) => {
               setOpen(true);
               setMode("view");

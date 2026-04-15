@@ -36,17 +36,29 @@ export function SignupForm({ className, ...props }) {
     barangay: ""
   });
 
+  const isValidPHMobile = (number) => {
+  const cleaned = number.replace(/[\s\-]/g, '');
+  return /^(09|\+639|639)\d{9}$/.test(cleaned);
+  };
+
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.id]: e.target.value
-    });
-  };
+  if (e.target.id === "contact_number") {
+    const value = e.target.value.replace(/[^\d\+\s\-]/g, ''); // strip invalid chars
+    setForm({ ...form, contact_number: value });
+    return;
+  }
+  setForm({ ...form, [e.target.id]: e.target.value });
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isValidPHMobile(form.contact_number)) {
+      setError("Please enter a valid Philippine mobile number (e.g. 09171234567)");
+      return;
+    }
 
     if (!form.gender) {
       setError("Please select a gender");
@@ -205,8 +217,11 @@ export function SignupForm({ className, ...props }) {
             <FieldLabel>Mobile Number</FieldLabel>
             <Input
               id="contact_number"
+              type="tel"
               value={form.contact_number}
               onChange={handleChange}
+              placeholder="09---------"
+              maxLength={13}
               required
             />
           </div>

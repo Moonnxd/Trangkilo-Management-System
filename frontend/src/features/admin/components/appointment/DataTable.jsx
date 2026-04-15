@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/features/admin/components/appointment/AppointmentBadge";
 import { Button } from "@/components/ui/button"
 
 import {
@@ -75,7 +75,7 @@ export function DataTable({ data = [], onNameClick }) {
       cell: ({ getValue }) => {
         const value = getValue();
         return (
-          <Badge variant={value === "Completed" ? "success" : "secondary"}>
+          <Badge variant={statusVariant[value]}>
             {value}
           </Badge>
         );
@@ -94,6 +94,13 @@ export function DataTable({ data = [], onNameClick }) {
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const statusVariant = {
+  Completed: "green",
+  Pending: "orange",
+  Scheduled: "blue",
+  Cancelled: "secondary",
+  }
 
   return (
     <div className="overflow-hidden rounded-lg border ml-4 mr-4">

@@ -43,8 +43,16 @@ router.get("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, start_time, status } = req.body;
+    let { date, start_time, status } = req.body;
 
+    // Fix DATE
+    if (date) {
+      const d = new Date(date);
+      date = d.toISOString().slice(0, 19).replace("T", " ");
+    }
+
+    // Fix TIME (already good from your log: 23:00:00)
+    
     const sql = `
       UPDATE appointments
       SET 
@@ -58,6 +66,7 @@ router.put("/:id", async (req, res) => {
 
     res.json({ message: "Appointment updated" });
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });

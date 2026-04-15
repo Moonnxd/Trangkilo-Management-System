@@ -41,7 +41,7 @@ import {
 
 import React, { useEffect, useState } from "react";
 
-export function TableCellViewer({
+export function CreateAppointment({
   open,
   setOpen,
   mode,
@@ -49,7 +49,6 @@ export function TableCellViewer({
   appointment,
   refreshData,
 }) {
-
   const isMobile = useIsMobile();
 
   const [details, setDetails] = useState(null);
@@ -195,7 +194,7 @@ const handleDelete = async () => {
               <FieldLabel>First Name</FieldLabel>
             <Input
               value={details?.client_first_name || ""}
-              onChange={(e) => handleChange("client_first_name", e.target.value)}
+              onChange={(e) => handleChange("client_name", e.target.value)}
               disabled={!isEditable}
             />
             </div>
@@ -204,7 +203,6 @@ const handleDelete = async () => {
               <FieldLabel>Last Name</FieldLabel>
             <Input
             value={details?.client_last_name || ""}
-            onChange={(e) => handleChange("client_last_name", e.target.value)}
             disabled={!isEditable}></Input>
             </div>
 
@@ -352,30 +350,19 @@ const handleDelete = async () => {
           </Field>
 
         <Field>
-  <FieldLabel>Service Type</FieldLabel>
-  <Select
-    value={details?.service_type_name ?? "Branch Visit"}
-    onValueChange={(value) => handleChange("service_type_name", value)}
-  >
-    <SelectTrigger disabled={!isEditable}>
-      <SelectValue placeholder="Select service type" />
-    </SelectTrigger>
-
-    <SelectContent>
-      <SelectGroup>
-        <SelectItem value="Branch Visit">Branch Visit</SelectItem>
-        <SelectItem value="Home Service">Home Service</SelectItem>
-        <SelectItem value="Hotel Service">Hotel Service</SelectItem>
-      </SelectGroup>
-    </SelectContent>
-  </Select>
-
-  <div className='flex justify-end'>
-    {(details?.service_type_name === "Hotel Service" || details?.service_type_name === "Home Service") && (
-  <DialogDemo appointment={details}/>
-)}
-  </div>
-</Field>
+          <FieldLabel>Service Type</FieldLabel>
+          <Input
+              value={details?.service_type_name || ""}
+              onChange={(e) => handleChange("price", e.target.value)}
+              disabled={!isEditable}
+            />
+            {/* <Button variant='ghost'>See more details</Button> */}
+            <div className='flex justify-end'>
+              {(details?.service_type_name === "Hotel Service" || details?.service_type_name === "Home Service") && (
+                <DialogDemo appointment={details}/>
+              )}
+            </div>
+        </Field>
 
         </div>
 
