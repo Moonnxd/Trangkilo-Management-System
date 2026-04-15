@@ -14,7 +14,7 @@ const badgeVariants = cva(
         green:
           "bg-green-100 text-green-800 border-green-300 focus-visible:ring-green-300/40 dark:bg-green-900 dark:text-green-100 dark:border-green-700 [a]:hover:bg-green-200 dark:[a]:hover:bg-green-800",
         orange:
-          "bg-orange-100 text-orange-800 border-orange-300 focus-visible:ring-orange-300/40 dark:bg-orange-900 dark:text-orange-100 dark:border-orange-700 [a]:hover:bg-orange-200 dark:[a]:hover:bg-orange-800",
+          "bg-orange-400 text-orange-100 border-orange-300 focus-visible:ring-orange-300/40 dark:bg-orange-900 dark:text-orange-100 dark:border-orange-700 [a]:hover:bg-orange-200 dark:[a]:hover:bg-orange-800",
         blue:
           "bg-blue-100 text-blue-800 border-blue-300 focus-visible:ring-blue-300/40 dark:bg-blue-900 dark:text-blue-100 dark:border-blue-700 [a]:hover:bg-blue-200 dark:[a]:hover:bg-blue-800",
       },

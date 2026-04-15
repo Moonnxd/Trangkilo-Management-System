@@ -4,6 +4,7 @@ import { DataTable } from "@/features/admin/components/appointment/DataTable";
 import { TableCellViewer } from "@/features/admin/components/appointment/TableCellViewer";
 import { SiteHeader } from "../components/SiteHeader";
 import { IconPlus } from "@tabler/icons-react";
+import { AddAppointment } from "../components/appointment/AddAppointment";
 
 import {
   Field,
@@ -84,10 +85,10 @@ function AdminAppointmentPage() {
 
           <Field orientation="horizontal" className="sm:max-w-lg">
             <Input type="search" placeholder="Search..." />
-            <Button>Search</Button>
-            <Button>
+            <Button variant='outline'>Search</Button>
+            <AddAppointment>
               <IconPlus /> Add Appointment
-            </Button>
+            </AddAppointment>
           </Field>
         </Card>
 

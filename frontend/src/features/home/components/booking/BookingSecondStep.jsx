@@ -40,7 +40,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
       name: service.service_name,
       price: service.price,
       duration: service.duration_minutes,
-      pax: 1
+      pax: service.number_of_pax
     }
 
     const updated = [...selectedServices, normalizedService]
@@ -122,21 +122,24 @@ export default function BookingSecondStep({ formData, setFormData }) {
                   ))}
                 </TabsContent>
 
-         
-                <TabsContent value="Premium">
+                <TabsContent className="flex flex-col gap-3"  value="Premium">
                   {services
                     .filter((s) => s.service_category === "Premium")
                     .map((service) => (
                       <Card key={service.services_id}>
                         <CardContent className="grid grid-cols-[70%_30%]">
-                          <div>
+                          <div className="flex flex-col gap-4">
                             <Label>{service.service_name}</Label>
                             <Label>{service.price}</Label>
                           </div>
 
-                          <Button onClick={() => handleAddService(service)}>
+                          <div className="flex items-center justify-center">
+                          <Button
+                          type="button"
+                          onClick={() => handleAddService(service)}>
                             + Add
                           </Button>
+                          </div>
                         </CardContent>
                       </Card>
                     ))}
@@ -219,7 +222,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
                 <div className="flex flex-col items-center">
                   <Label>No. Of Pax</Label>
                   <NumberInput
-                    value={service.pax}
+                    value={service.number_of_pax}
                     onChange={(val) =>
                       handlePaxChange(service.id, val)
                     }

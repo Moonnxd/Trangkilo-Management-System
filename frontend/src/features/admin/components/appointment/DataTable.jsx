@@ -138,7 +138,7 @@ export function DataTable({ data = [], onNameClick }) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center py-6">
+              <TableCell colSpan={8} className="text-center py-6">
                 No staff data available
               </TableCell>
             </TableRow>

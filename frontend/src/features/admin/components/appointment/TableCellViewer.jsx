@@ -212,24 +212,27 @@ const handleDelete = async () => {
               <FieldLabel>M.I</FieldLabel>
             <Input disabled={!isEditable}></Input>
             </div>
-            
-
-            
-
-            
           </Field>
 
           <Field className='mt-10'>
             <FieldSeparator>Information</FieldSeparator>
           </Field>
 
-          <div>
+          <div className="flex gap-2">
+            <Field>
             <FieldLabel>Treatment</FieldLabel>
             <Input
               value={details?.service || ""}
               onChange={(e) => handleChange("service", e.target.value)}
-              disabled={!isEditable}
-            />
+              disabled={!isEditable}/>
+              </Field>
+
+              <Field>
+                <FieldLabel>Pax</FieldLabel>
+                <Input
+                value={details?.pax}
+                onChange={(e) => handleChange("pax", e.target.value)}/>
+              </Field>
           </div>
 
           <div className='flex gap-2'>

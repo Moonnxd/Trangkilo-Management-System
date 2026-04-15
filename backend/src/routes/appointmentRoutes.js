@@ -22,6 +22,7 @@ router.get("/", async (req, res) => {
         a.appointment_date AS date,
         a.start_time,
         aps.duration_minutes AS duration,
+        aps.number_of_pax AS pax,
         aps.price,
         a.status
       FROM appointments a
