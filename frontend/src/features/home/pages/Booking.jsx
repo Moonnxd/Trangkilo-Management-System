@@ -226,7 +226,6 @@ export default function HorizontalNonLinearStepper() {
 
 
               <Box
-                className="border"
                 sx={{ display: "flex", flexDirection: "row", pt: 2 }}
               >
                 <Button

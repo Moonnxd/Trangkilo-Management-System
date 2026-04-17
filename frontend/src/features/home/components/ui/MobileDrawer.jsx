@@ -38,7 +38,7 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
           lg:hidden
           xl:hidden
           2xl:hidden" variant="outline">
-            View Appointment {selectedServices.length > 0 && `(${selectedServices.length})`}
+            View Appointment <span className="bg-red-500 rounded-[50%] px-1 text-white">{selectedServices.length > 0 && `${selectedServices.length}`}</span>
           </Button>
         </DrawerTrigger>
 
