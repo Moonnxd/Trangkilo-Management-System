@@ -246,7 +246,13 @@ export default function HorizontalNonLinearStepper() {
                       Step {activeStep + 1} already completed
                     </Typography>
                   ) : (
-                    <Button onClick={handleComplete}>
+                    <Button variant='contained' 
+                    sx={{
+                          backgroundColor: "#487d00",
+                          "&:hover": {
+                            backgroundColor: "#487d00"
+                          }
+                        }} onClick={handleComplete}>
                       {completedSteps() === totalSteps() - 1
                         ? "Finish"
                         : "Next"}
