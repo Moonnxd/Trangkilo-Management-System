@@ -48,7 +48,7 @@ function AdminAppointmentPage() {
 
   const startPolling = useCallback(() => {
     fetchAppointments();
-    intervalRef.current = setInterval(fetchAppointments, 500000000000);
+    intervalRef.current = setInterval(fetchAppointments, 5000);
   }, [fetchAppointments]);
 
   const stopPolling = useCallback(() => {
