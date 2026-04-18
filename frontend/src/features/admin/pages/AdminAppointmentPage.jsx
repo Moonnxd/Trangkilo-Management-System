@@ -5,6 +5,7 @@ import { TableCellViewer } from "@/features/admin/components/appointment/TableCe
 import { SiteHeader } from "../components/SiteHeader";
 import { IconPlus } from "@tabler/icons-react";
 import { AddAppointment } from "../components/appointment/AddAppointment";
+import { io } from "socket.io-client";
 
 import {
   Field,
@@ -30,6 +31,8 @@ const styleObject = {
   "--header-height": "calc(var(--spacing) * 12)",
 };
 
+const socket = io("http://localhost:5000");
+
 function AdminAppointmentPage() {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -46,31 +49,22 @@ function AdminAppointmentPage() {
     }
   }, []);
 
-  const startPolling = useCallback(() => {
-    fetchAppointments();
-    intervalRef.current = setInterval(fetchAppointments, 50000000000000000);
-  }, [fetchAppointments]);
-
-  const stopPolling = useCallback(() => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = null;
-  }, []);
 
   useEffect(() => {
-    const handleVisibility = () => {
-      document.visibilityState === "hidden"
-        ? stopPolling()
-        : startPolling();
-    };
+    fetchAppointments();
 
-    startPolling(); 
-    document.addEventListener("visibilitychange", handleVisibility);
+    // Tell server this is an admin
+    socket.emit("join:admin");
+
+    // When a new booking comes in, prepend it to the table
+    socket.on("new:appointment", () => {
+      fetchAppointments(); // re-fetch so the full row data matches your DB format
+    });
 
     return () => {
-      stopPolling();
-      document.removeEventListener("visibilitychange", handleVisibility);
+      socket.off("new:appointment");
     };
-  }, [startPolling, stopPolling]);
+  }, [fetchAppointments]);
 
   return (
     <SidebarProvider style={styleObject}>

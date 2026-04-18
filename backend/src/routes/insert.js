@@ -1,5 +1,6 @@
 import express from "express";
 import { db } from "../connection/db.js";
+import { io } from "../../server.js";
 
 const router = express.Router();
 
@@ -141,6 +142,16 @@ router.post("/", async (req, res) => {
     }
 
     await connection.commit();
+
+    io.to('admins').emit('new:appointment', {   // ← ADD
+      appointment_id,
+      customer: data.customer,
+      date: appointment_date,
+      start_time: startTime,
+      end_time,
+      serviceType: data.serviceType,
+      branch: data.branch,
+    });
 
     res.json({
       message: "Booking created successfully",
