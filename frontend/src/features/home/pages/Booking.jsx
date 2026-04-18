@@ -12,7 +12,11 @@ import SecondStep from "@/features/home/components/booking/BookingSecondStep.jsx
 import ThirdStep from "@/features/home/components/booking/BookingThirdStep.jsx"
 import FourthStep from "@/features/home/components/booking/BookingFourthStep.jsx"
 import Location from "@/features/home/components/booking/Location.jsx"
+<<<<<<< HEAD
 import { ModeToggle } from "@/components/ui/mode-toggle";
+=======
+// import Toggle from "@/components/ui/mode-toggle.jsx"
+>>>>>>> moonxd/main
 import SelectService from "@/features/home/components/booking/SelectService"
 
 import { useState } from "react"
@@ -32,7 +36,11 @@ export default function HorizontalNonLinearStepper() {
   const [formData, setFormData] = useState({
     serviceType: "",
     branch: "",
+<<<<<<< HEAD
     therapist_type: "",
+=======
+    therapist_type: "Any",
+>>>>>>> moonxd/main
     therapist_id: "",
     date: "",
     time: "",
@@ -130,7 +138,11 @@ export default function HorizontalNonLinearStepper() {
 
         console.log("Submitting:", finalData)
 
+<<<<<<< HEAD
         const response = await axios.post("http://localhost:5000/booking", finalData)
+=======
+        const response = await axios.post("/booking", finalData);
+>>>>>>> moonxd/main
 
         console.log(response.data);
       } catch (err) {
@@ -169,7 +181,11 @@ export default function HorizontalNonLinearStepper() {
         </div>
       )}
 
+<<<<<<< HEAD
       <ModeToggle/>
+=======
+      {/* <Toggle /> */}
+>>>>>>> moonxd/main
 
       <Box className="pt-5" sx={{ width: "100%" }}>
         
@@ -226,7 +242,10 @@ export default function HorizontalNonLinearStepper() {
 
 
               <Box
+<<<<<<< HEAD
                 className="border"
+=======
+>>>>>>> moonxd/main
                 sx={{ display: "flex", flexDirection: "row", pt: 2 }}
               >
                 <Button
@@ -246,7 +265,17 @@ export default function HorizontalNonLinearStepper() {
                       Step {activeStep + 1} already completed
                     </Typography>
                   ) : (
+<<<<<<< HEAD
                     <Button onClick={handleComplete}>
+=======
+                    <Button variant='contained' 
+                    sx={{
+                          backgroundColor: "#487d00",
+                          "&:hover": {
+                            backgroundColor: "#487d00"
+                          }
+                        }} onClick={handleComplete}>
+>>>>>>> moonxd/main
                       {completedSteps() === totalSteps() - 1
                         ? "Finish"
                         : "Next"}

@@ -36,6 +36,7 @@ export function SignupForm({ className, ...props }) {
     barangay: ""
   });
 
+<<<<<<< HEAD
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -44,10 +45,35 @@ export function SignupForm({ className, ...props }) {
       [e.target.id]: e.target.value
     });
   };
+=======
+  const isValidPHMobile = (number) => {
+  const cleaned = number.replace(/[\s\-]/g, '');
+  return /^(09|\+639|639)\d{9}$/.test(cleaned);
+  };
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+  if (e.target.id === "contact_number") {
+    const value = e.target.value.replace(/[^\d\+\s\-]/g, ''); // strip invalid chars
+    setForm({ ...form, contact_number: value });
+    return;
+  }
+  setForm({ ...form, [e.target.id]: e.target.value });
+};
+>>>>>>> moonxd/main
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
+=======
+    if (!isValidPHMobile(form.contact_number)) {
+      setError("Please enter a valid Philippine mobile number (e.g. 09171234567)");
+      return;
+    }
+
+>>>>>>> moonxd/main
     if (!form.gender) {
       setError("Please select a gender");
       return;
@@ -64,11 +90,26 @@ export function SignupForm({ className, ...props }) {
         headers: {
           "Content-Type": "application/json"
         },
+<<<<<<< HEAD
+=======
+        credentials: "include",
+>>>>>>> moonxd/main
         body: JSON.stringify(form)
       });
 
       const data = await res.json();
 
+<<<<<<< HEAD
+=======
+      if (res.ok) {
+  // SUCCESS → redirect
+  window.location.href = "/clientlogin"; // or "/login"
+} else {
+  // ERROR → show message
+  console.log(data.message);
+}
+
+>>>>>>> moonxd/main
       if (!res.ok) {
         setError(data.message || "Signup failed");
       } else {
@@ -196,8 +237,16 @@ export function SignupForm({ className, ...props }) {
             <FieldLabel>Mobile Number</FieldLabel>
             <Input
               id="contact_number"
+<<<<<<< HEAD
               value={form.contact_number}
               onChange={handleChange}
+=======
+              type="tel"
+              value={form.contact_number}
+              onChange={handleChange}
+              placeholder="09---------"
+              maxLength={13}
+>>>>>>> moonxd/main
               required
             />
           </div>

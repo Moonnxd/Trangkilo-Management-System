@@ -1,8 +1,9 @@
 import express from "express";
-import { db } from "../db.js";
+import { db } from "../connection/db.js";
 
 const router = express.Router();
 
+<<<<<<< HEAD
 /* Get all roles */
 router.get("/", async (req, res) => {
   try {
@@ -97,3 +98,16 @@ router.delete("/:id", async (req, res) => {
 })
 
 export default router;  
+=======
+router.get("/", async (req, res) => {
+  try {
+    const sql = "SELECT role_id, role_name FROM roles";
+    const [result] = await db.query(sql);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+export default router;
+>>>>>>> moonxd/main

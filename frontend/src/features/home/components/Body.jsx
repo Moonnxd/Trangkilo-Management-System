@@ -1,7 +1,10 @@
 import background from '../../../assets/images/background.png';
 import { useState } from 'react';
 import PopUp from "@/features/home/components/popUp.jsx"
+<<<<<<< HEAD
 import { Button } from "@/components/ui/button"
+=======
+>>>>>>> moonxd/main
 
 function Body(){
     const [bookChoice, showChoices] = useState(false);
