@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/features/admin/components/DatePicker"
 import { Textarea } from "@/components/ui/textarea"
-import { Field, FieldLabel } from "@/components/ui/field"
+import { Field, FieldLabel, FieldError } from "@/components/ui/field"
 import { Separator } from "@/components/ui/separator"
 import { IconPencil, IconTrash } from "@tabler/icons-react"
 import { toast } from "sonner"
+import { validateSales } from "./SalesValidation";
 
 import {
   AlertDialog,
@@ -42,30 +43,41 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 //import Api
-import { getStaff, createStaff, updateStaff, deleteStaff } from "@/api/staffApi"
-import { getRole } from "@/api/roleApi"
-import { getBranch } from "@/api/branchApi";
+import { getBranchSalesSummary } from "@/api/branchApi";
 
-export function TableCellViewer({ 
+export function SalesTableCellViewer({ 
   open,
   setOpen,
   mode,
   setMode,
-  staffId,
+  branchId,
   refreshData,
   }){
     const isMobile = useIsMobile()
 
     //open drawer then view details based on staffId
     const [details, setDetails] = React.useState(null);
+    const [errors, setErrors] = useState({});
     const isEditable = mode === "edit" || mode === "create";
     const [saving, setSaving] = useState(false);
+    useEffect(() => {
+      if (!open) {
+        setErrors({});
+      }
+    }, [open]);
 
     const handleChange = (field, value) => {
       setDetails((prev) => ({
         ...prev,
         [field]: value,
       }));
+
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[field];
+        return updated;
+      });
+
     };
 
     React.useEffect(() => {
@@ -92,9 +104,9 @@ export function TableCellViewer({
         }
   
         // view, edit, or delete staff
-        if (staffId) {
+        if (branchID) {
           try {
-            const res = await getStaff(staffId)
+            const res = await getBranchSalesSummary(branchId)
             setDetails(res.data)
           } catch (err) {
             console.error(err)
@@ -103,7 +115,7 @@ export function TableCellViewer({
       }
   
       fetchData()
-    }, [open, mode, staffId])
+    }, [open, mode, branchId])
 
     //fetch branches and roles data 
     const [roles, setRoles] = useState([]);
@@ -116,8 +128,8 @@ export function TableCellViewer({
     const fetchMeta = async () => {
       try {
         const [roleRes, branchRes] = await Promise.all([
-          getRole(),
-          getBranch(),
+          getRoles(),
+          getBranches(),
         ]);
 
         setRoles(roleRes.data);
@@ -131,6 +143,30 @@ export function TableCellViewer({
     const handleSave = async () => {
       if (!details) return;
     
+      const validationErrors = validateSales(details);
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+    
+        // show all errors in toast
+        const errorMessages = Object.values(validationErrors);
+    
+        toast.error(
+          <div>
+            <strong>Please fix the following:</strong>
+            <ul className="mt-2 list-disc pl-4 text-white-200">
+              {errorMessages.map((msg, index) => (
+                <li key={index}>{msg}</li>
+              ))}
+            </ul>
+          </div>, {
+            duration: 10000,
+          }
+          
+        );
+    
+        return;
+      }
+
       try {
         setSaving(true);
     
@@ -245,20 +281,20 @@ export function TableCellViewer({
   
             <div className="flex">
               <div className='w-40 mr-2 flex-auto'>
-                <Field>
+                <Field data-invalid={!!errors.first_name}>
                   <FieldLabel >First Name</FieldLabel>
-                  <Input value={details?.first_name || ""} onChange={(e) => handleChange("first_name", e.target.value)} placeholder='First Name'  disabled={!isEditable} />
+                  <Input  value={details?.first_name || ""} onChange={(e) => handleChange("first_name", e.target.value)} placeholder='First Name'  disabled={!isEditable} />
                 </Field>
               </div>
               <div className='w-40 mr-2 flex-auto'>
-                <Field>
+                <Field data-invalid={!!errors.last_name}>
                   <FieldLabel >Last Name</FieldLabel>
                   <Input value={details?.last_name || ""} onChange={(e) => handleChange("last_name", e.target.value)} placeholder='Last Name'  disabled={!isEditable} />
                 </Field>
               </div>
               <div className='w-25 mr-2 flex-auto'>
-                <Field>
-                  <FieldLabel >M.I</FieldLabel>
+                <Field data-invalid={!!errors.middle_initial}>
+                  <FieldLabel>M.I</FieldLabel>
                   <Input value={details?.middle_initial || ""} placeholder='M.I' onChange={(e) => handleChange("middle_initial", e.target.value)} disabled={!isEditable} />
                 </Field>
               </div>
@@ -266,7 +302,7 @@ export function TableCellViewer({
   
             <div className="flex">
               <div className='w-50 mr-2 flex-auto'>
-                <Field>
+                <Field data-invalid={!!errors.branch_id}>
                   <FieldLabel >Branch Name</FieldLabel>
                   <Select value={details?.branch_id?.toString() || ""}
                     onValueChange={(value) =>
@@ -291,7 +327,7 @@ export function TableCellViewer({
                 </Field>
               </div>
               <div className='w-50 mr-2 flex-auto'>
-                <Field>
+                <Field data-invalid={!!errors.role_id}>
                   <FieldLabel >Role</FieldLabel>
                   <Select
                     value={details?.role_id?.toString() || ""}
@@ -322,22 +358,22 @@ export function TableCellViewer({
   
             <div className="flex">
               <div className='w-50 mr-2 flex-auto'>
-                <Field>
-                  <FieldLabel >Contact Number</FieldLabel>
+                <Field data-invalid={!!errors.contact_number}>
+                  <FieldLabel data-invalid={!!errors.contact_number}>Contact Number</FieldLabel>
                   <Input value={details?.contact_number || ""} placeholder='Contact Number' onChange={(e) => handleChange("contact_number", e.target.value)} disabled={!isEditable} />
                 </Field>
               </div>
               <div className='w-50 mr-2 flex-auto'>
-                <Field>
+                <Field data-invalid={!!errors?.email}>
                   <FieldLabel >Email</FieldLabel>
-                  <Input value={details?.email || ""} placeholder='Email' onChange={(e) => handleChange("email", e.target.value)} disabled={!isEditable}/>
+                  <Input type="email" value={details?.email || ""} placeholder='Email' onChange={(e) => handleChange("email", e.target.value)} disabled={!isEditable}/>
                 </Field>
               </div>
             </div>
   
             <div className="flex">
               <div className='w-50 mr-2 flex-auto'>
-                <Field>
+                <Field data-invalid={!!errors.gender}>
                   <FieldLabel >Gender</FieldLabel>
                   <Select
                     value={details?.gender || ""}

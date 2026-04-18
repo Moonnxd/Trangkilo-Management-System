@@ -59,8 +59,8 @@ const data = {
       icon: IconCalendarClock,
     },
     {
-      title: "Sales Report",
-      url: "/admin/sales",
+      title: "Sales Management",
+      url: "/admin/salesreport",
       icon: IconChartBar,
     },
     {
