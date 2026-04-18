@@ -137,47 +137,50 @@ export default function BookingThirdStep({ formData, setFormData }) {
             <div className="flex gap-1">
               <img src={location} className="h-5 w-5 2xl:h-6 2xl:w-6" />
               <Label className="text-xs 2xl:text-base">
-                Orange Dormitel, Barangay Tinago, Naga City
+               {formData.branch
+                ? formData.branch.branch_name
+                : "No branch selected"}
               </Label>
             </div>
 
             <div className="flex gap-2">
               <img src={date} className="h-4 w-4 2xl:h-5 2xl:w-5" />
               <Label className="text-xs 2xl:text-base">
-                Friday, March 31, 2026
+                {formData.date && formData.time
+                ? `${formData.date} at ${formData.time}`
+                : "No date & time selected"}
               </Label>
-              <Label className="text-xs 2xl:text-base">
-                4:30 PM
-              </Label>
+              
             </div>
           </div>
 
-          <Card>
-            <CardContent className="grid grid-cols-2 grid-rows-2 gap-1">
-              <div>
-                <Label className="text-xs 2xl:text-base">
-                  Volcanic Hot Stone Massage
-                </Label>
-                <Label className="text-xs 2xl:text-base">
-                  + Body Scrub
-                </Label>
-                <Label className="text-xs 2xl:text-base">
-                  + 15 mins Foot Massage
-                </Label>
-              </div>
+          {formData.services.length === 0 ? (
+  <Label className="text-xs 2xl:text-base text-muted-foreground">
+    No services selected
+  </Label>
+) : (
+  formData.services.map((service) => (
+    <Card key={service.id}>
+      <CardContent className="grid grid-cols-2 gap-1">
+        <div className="flex flex-col gap-1">
+          <Label className="text-xs 2xl:text-base font-semibold">
+            {service.name}
+          </Label>
+          <Label className="text-xs 2xl:text-base">
+            Price: {service.price}
+          </Label>
+        </div>
 
-              <div className="flex flex-col items-center justify-center">
-                <Label className="text-xs 2xl:text-base">
-                  No. Of Pax
-                </Label>
-                <NumberInput />
-              </div>
-
-              <div className="col-span-2 flex items-center justify-end">
-                <Button variant="destructive">Remove</Button>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="flex flex-col items-center justify-center">
+          <Label className="text-xs 2xl:text-base">No. Of Pax</Label>
+          <Label className="text-xs 2xl:text-base font-bold">
+            {service.pax}
+          </Label>
+        </div>
+      </CardContent>
+    </Card>
+  ))
+)}
 
         </CardContent>
       </Card>

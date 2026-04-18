@@ -295,7 +295,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
       name: service.service_name,
       price: service.price,
       duration: service.duration_minutes,
-      pax: service.number_of_pax
+      pax: service.number_of_pax ?? 1
     }
 
     const updated = [...selectedServices, normalizedService]
@@ -471,16 +471,22 @@ export default function BookingSecondStep({ formData, setFormData }) {
 
           <Separator />
 
-          <div className="flex flex-col gap-3">
-            <div className="flex gap-1">
-              <img src={location} className="h-5 w-5" />
-              <Label>Selected Location</Label>
-            </div>
-
-            <div className="flex gap-2">
-              <img src={date} className="h-4 w-4" />
-              <Label>Date & Time</Label>
-            </div>
+          <div className="flex gap-1">
+            <img src={location} className="h-5 w-5" />
+            <Label>
+              {formData.branch
+                ? formData.branch.branch_name + ", " + formData.branch.barangay + ", " + formData.branch.city
+                : "No branch selected"}
+            </Label>
+          </div>
+              
+          <div className="flex gap-2">
+            <img src={date} className="h-4 w-4" />
+            <Label>
+              {formData.date && formData.time
+                ? `${formData.date} at ${formData.time}`
+                : "No date & time selected"}
+            </Label>
           </div>
 
           {selectedServices.map((service) => (
