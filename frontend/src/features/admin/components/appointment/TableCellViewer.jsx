@@ -56,6 +56,13 @@ export function TableCellViewer({
   const isEditable = mode === "edit" || mode === "create";
   const [saving, setSaving] = useState(false);
 
+  function formatLocalDate(date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+  }
+
   const handleChange = (field, value) => {
     setDetails((prev) => ({
       ...prev,
@@ -164,7 +171,7 @@ const handleDelete = async () => {
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="link" className="text-destructive">
+                  <Button disabled variant="link" className="text-destructive">
                     <IconTrash /> Delete
                   </Button>
                 </AlertDialogTrigger>
@@ -291,7 +298,7 @@ const handleDelete = async () => {
             <FieldLabel>Date</FieldLabel>
             <Input
               type="date"
-              value={details?.date ? details.date.split("T")[0] : ""}
+              value={details?.date ? formatLocalDate(new Date(details.date)) : ""}
               onChange={(e) => handleChange("date", e.target.value)}
               disabled={!isEditable}
             />

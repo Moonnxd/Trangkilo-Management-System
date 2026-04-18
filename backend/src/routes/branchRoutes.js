@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const sql = "SELECT branch_id, branch_name FROM branches";
+    const sql = "SELECT branch_id, branch_name, zone, barangay, city, province FROM branches";
     const [result] = await db.query(sql);
     res.json(result);
   } catch (err) {

@@ -32,6 +32,20 @@ export default function BookingFirstStep({ formData, setFormData }) {
 
   const [errors, setErrors] = React.useState({});
 
+  function formatLocalDate(date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}` // e.g. "2026-04-18"
+  }
+
+  React.useEffect(() => {
+  setFormData(prev => ({
+    ...prev,
+    date: formatLocalDate(new Date())
+  }))
+}, [])
+
   React.useEffect(() => {
     axios.get("/staffs/therapist")
       .then(res => {
@@ -62,7 +76,6 @@ export default function BookingFirstStep({ formData, setFormData }) {
           <form>
             <div className="flex flex-col gap-6">
 
-=
               <div className="flex gap-2">
                 <Label className="font-bold">Select Branch:</Label>
 
@@ -104,7 +117,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
 
                 <p>
                   {selectedBranch
-                    ? `${selectedBranch.barangay}, ${selectedBranch.city}, ${selectedBranch.province} (${selectedBranch.landmark})`
+                    ? `${selectedBranch.barangay}, ${selectedBranch.city}, ${selectedBranch.province}`
                     : "Select a Branch"}
                 </p>
               </div>
@@ -241,13 +254,12 @@ export default function BookingFirstStep({ formData, setFormData }) {
                 required
                 selected={date}
                 onSelect={(value) => {
-                  setDate(value)
-
-                  setFormData(prev => ({
-                    ...prev,
-                    date: value ? value.toISOString() : "" 
-                  }))
-                }}
+  setDate(value)
+  setFormData(prev => ({
+    ...prev,
+    date: value ? formatLocalDate(value) : ""
+  }))
+}}
                 className="w-[80%] rounded-lg border"
                 captionLayout="dropdown"
               />
