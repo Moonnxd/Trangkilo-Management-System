@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-const NumberInput = () => {
-  const [value, setValue] = useState(1)
+const NumberInput = ({ value = 1, onChange }) => {
+  const clamp = (val) => Math.min(5, Math.max(1, val))
 
   return (
     <div className="flex items-center justify-center w-full">
       <div className="flex gap-2 justify-center">
         <Button
-          onClick={() => setValue(Math.max(1, value - 1))}
+          onClick={() => onChange(clamp(value - 1))}
           size="icon"
           type="button"
           variant="outline"
@@ -21,15 +21,16 @@ const NumberInput = () => {
           <Minus className="h-4 w-4" />
         </Button>
         <Input
-          className="w-[20%] bg-background text-center"
+          className="w-[35%] bg-background text-center"
           id="quantity"
           min="1"
-          onChange={(e) => setValue(Number(e.target.value))}
+          max="5"
+          onChange={(e) => onChange(clamp(Number(e.target.value)))}
           type="number"
           value={value}
         />
         <Button
-          onClick={() => setValue(value + 1)}
+          onClick={() => onChange(clamp(value + 1))}
           size="icon"
           type="button"
           variant="outline"

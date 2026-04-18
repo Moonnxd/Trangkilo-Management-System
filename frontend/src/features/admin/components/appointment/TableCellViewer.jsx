@@ -171,7 +171,7 @@ const handleDelete = async () => {
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button disabled variant="link" className="text-destructive">
+                  <Button variant="link" className="text-destructive">
                     <IconTrash /> Delete
                   </Button>
                 </AlertDialogTrigger>

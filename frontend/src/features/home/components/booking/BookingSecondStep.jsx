@@ -295,7 +295,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
       name: service.service_name,
       price: service.price,
       duration: service.duration_minutes,
-      pax: service.number_of_pax ?? 1
+      pax: service.number_of_pax
     }
 
     const updated = [...selectedServices, normalizedService]
@@ -492,7 +492,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
           {selectedServices.map((service) => (
             <Card key={service.id}>
               <CardContent className="grid grid-cols-2 gap-2">
-                <div>
+                <div className='flex flex-col justify-between'>
                   <Label>{service.name}</Label>
                   <Label>Price: {service.price}</Label>
                 </div>
