@@ -478,7 +478,7 @@ export function AddAppointment() {
       .then((res) => setTherapists(res.data))
       .catch((err) => console.error("Failed to fetch therapists", err))
 
-    axios.get("/branches")
+    axios.get("/api/branches")
       .then((res) => setBranches(res.data))
       .catch((err) => console.error("Failed to fetch branches", err))
   }, [])

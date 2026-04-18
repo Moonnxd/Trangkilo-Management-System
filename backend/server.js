@@ -130,9 +130,9 @@ app.use("/loginroute", loginRouter);
 app.use("/", authRoutes);
 app.use("/booking", insertRoutes);
 app.use("/api/appointments", appointmentRoutes);
-app.use("/staffs", staffRoutes);
+app.use("/api/staffs", staffRoutes);
 app.use("/api/roles", roleRoutes);
-app.use("/branches", branchRoutes);
+app.use("/api/branches", branchRoutes);
 
 app.get("/test-session", (req, res) => {
   if (req.session.userId) {
