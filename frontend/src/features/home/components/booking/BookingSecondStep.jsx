@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { Button } from "@/components/ui/button"
 // import { Separator } from "@/components/ui/separator"
 // import NumberInput from "@/components/ui/NumberInput"
@@ -253,6 +254,8 @@
 //   )
 // }
 
+=======
+>>>>>>> origin/pre-prod
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import NumberInput from "@/components/ui/NumberInput"
@@ -274,7 +277,12 @@ export default function BookingSecondStep({ formData, setFormData }) {
   const [selectedServices, setSelectedServices] = useState([])
 
   useEffect(() => {
+<<<<<<< HEAD
     axios.get("/services")
+=======
+    axios
+      .get("http://localhost:5000/services")
+>>>>>>> origin/pre-prod
       .then((res) => {
         setServices(res.data)
       })
@@ -295,7 +303,11 @@ export default function BookingSecondStep({ formData, setFormData }) {
       name: service.service_name,
       price: service.price,
       duration: service.duration_minutes,
+<<<<<<< HEAD
       pax: service.number_of_pax ?? 1
+=======
+      pax: 1
+>>>>>>> origin/pre-prod
     }
 
     const updated = [...selectedServices, normalizedService]
@@ -354,16 +366,51 @@ export default function BookingSecondStep({ formData, setFormData }) {
                   <TabsTrigger value="Specialty">Specialty</TabsTrigger>
                 </TabsList>
 
+<<<<<<< HEAD
                 <div className="h-[500px] overflow-y-auto pr-2 mt-2">
                   <TabsContent className="flex flex-col gap-3" value="All">
                     {services.map((service) => (
                       <Card key={service.services_id}>
                         <CardContent className="grid grid-cols-[70%_30%]">
                           <div className="flex flex-col gap-4">
+=======
+           
+                <TabsContent className="flex flex-col gap-3" value="All">
+                  {services.map((service) => (
+                    <Card key={service.services_id}>
+                      <CardContent className="grid grid-cols-[70%_30%]">
+                        <div className="flex flex-col gap-4">
+                          <Label>{service.service_name}</Label>
+                          <Label>{service.price}</Label>
+                        </div>
+
+                        <div className="flex items-center justify-center">
+                          <Button
+                            type="button"
+                            onClick={() => handleAddService(service)}
+                          >
+                            + Add
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </TabsContent>
+
+         
+                <TabsContent value="Premium">
+                  {services
+                    .filter((s) => s.service_category === "Premium")
+                    .map((service) => (
+                      <Card key={service.services_id}>
+                        <CardContent className="grid grid-cols-[70%_30%]">
+                          <div>
+>>>>>>> origin/pre-prod
                             <Label>{service.service_name}</Label>
                             <Label>{service.price}</Label>
                           </div>
 
+<<<<<<< HEAD
                           <div className="flex items-center justify-center">
                             <Button
                               type="button"
@@ -450,11 +497,61 @@ export default function BookingSecondStep({ formData, setFormData }) {
                   </TabsContent>
                 </div>
 
+=======
+                          <Button onClick={() => handleAddService(service)}>
+                            + Add
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                </TabsContent>
+
+           
+                <TabsContent value="Traditional">
+                  {services
+                    .filter((s) => s.service_category === "Traditional")
+                    .map((service) => (
+                      <Card key={service.services_id}>
+                        <CardContent className="grid grid-cols-[70%_30%]">
+                          <div>
+                            <Label>{service.service_name}</Label>
+                            <Label>{service.price}</Label>
+                          </div>
+
+                          <Button onClick={() => handleAddService(service)}>
+                            + Add
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                </TabsContent>
+
+             
+                <TabsContent value="Specialty">
+                  {services
+                    .filter((s) => s.service_category === "Specialty")
+                    .map((service) => (
+                      <Card key={service.services_id}>
+                        <CardContent className="grid grid-cols-[70%_30%]">
+                          <div>
+                            <Label>{service.service_name}</Label>
+                            <Label>{service.price}</Label>
+                          </div>
+
+                          <Button onClick={() => handleAddService(service)}>
+                            + Add
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                </TabsContent>
+>>>>>>> origin/pre-prod
               </Tabs>
             </div>
           </form>
 
           <div className="flex justify-center pt-5 pb-3">
+<<<<<<< HEAD
             <MobileDrawer
               selectedServices={selectedServices}
               formData={formData}
@@ -462,6 +559,9 @@ export default function BookingSecondStep({ formData, setFormData }) {
               onPaxChange={handlePaxChange}
               onSubmit={() => console.log("submit", formData)}
             />
+=======
+            <MobileDrawer />
+>>>>>>> origin/pre-prod
           </div>
         </CardContent>
 
@@ -471,6 +571,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
 
           <Separator />
 
+<<<<<<< HEAD
           <div className="flex gap-1">
             <img src={location} className="h-5 w-5" />
             <Label>
@@ -487,6 +588,18 @@ export default function BookingSecondStep({ formData, setFormData }) {
                 ? `${formData.date} at ${formData.time}`
                 : "No date & time selected"}
             </Label>
+=======
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-1">
+              <img src={location} className="h-5 w-5" />
+              <Label>Selected Location</Label>
+            </div>
+
+            <div className="flex gap-2">
+              <img src={date} className="h-4 w-4" />
+              <Label>Date & Time</Label>
+            </div>
+>>>>>>> origin/pre-prod
           </div>
 
           {selectedServices.map((service) => (

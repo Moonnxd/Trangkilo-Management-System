@@ -8,6 +8,7 @@ import cors from "cors";
 import staffRoutes from "./src/routes/staffRoutes.js"
 import roleRoutes from "./src/routes/roleRoutes.js"
 import branchRoutes from "./src/routes/branchRoutes.js"
+<<<<<<< HEAD
 import appointmentRoutes from "./src/routes/appointmentRoutes.js";
 import serviceType from "./src/routes/serviceType.js";
 import authRoutes from "./src/routes/authRoutes.js";
@@ -15,6 +16,9 @@ import loginRouter from "./src/routes/loginRoutes.js";
 import insertRoutes from "./src/routes/insert.js";
 import service from "./src/routes/service.js";
 import sessionMiddleware from "./src/connection/session.js";
+=======
+import serviceType from "./src/routes/serviceType.js";
+>>>>>>> origin/pre-prod
 
 const app = express();
 
@@ -26,6 +30,7 @@ app.use(cors({
 
 app.use(express.json());
 
+<<<<<<< HEAD
 app.use(sessionMiddleware);
 
 app.use(authRoutes);
@@ -51,6 +56,9 @@ app.use("/", authRoutes);
 app.use("/booking", insertRoutes);
 
 app.use("/api/appointments", appointmentRoutes);
+=======
+app.use("/api/serviceType", serviceType);
+>>>>>>> origin/pre-prod
 
 //get staffs
 app.use("/staffs", staffRoutes);

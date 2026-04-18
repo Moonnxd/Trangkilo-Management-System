@@ -137,15 +137,20 @@ export default function BookingThirdStep({ formData, setFormData }) {
             <div className="flex gap-1">
               <img src={location} className="h-5 w-5 2xl:h-6 2xl:w-6" />
               <Label className="text-xs 2xl:text-base">
+<<<<<<< HEAD
                {formData.branch
                 ? formData.branch.branch_name
                 : "No branch selected"}
+=======
+                Orange Dormitel, Barangay Tinago, Naga City
+>>>>>>> origin/pre-prod
               </Label>
             </div>
 
             <div className="flex gap-2">
               <img src={date} className="h-4 w-4 2xl:h-5 2xl:w-5" />
               <Label className="text-xs 2xl:text-base">
+<<<<<<< HEAD
                 {formData.date && formData.time
                 ? `${formData.date} at ${formData.time}`
                 : "No date & time selected"}
@@ -181,6 +186,42 @@ export default function BookingThirdStep({ formData, setFormData }) {
     </Card>
   ))
 )}
+=======
+                Friday, March 31, 2026
+              </Label>
+              <Label className="text-xs 2xl:text-base">
+                4:30 PM
+              </Label>
+            </div>
+          </div>
+
+          <Card>
+            <CardContent className="grid grid-cols-2 grid-rows-2 gap-1">
+              <div>
+                <Label className="text-xs 2xl:text-base">
+                  Volcanic Hot Stone Massage
+                </Label>
+                <Label className="text-xs 2xl:text-base">
+                  + Body Scrub
+                </Label>
+                <Label className="text-xs 2xl:text-base">
+                  + 15 mins Foot Massage
+                </Label>
+              </div>
+
+              <div className="flex flex-col items-center justify-center">
+                <Label className="text-xs 2xl:text-base">
+                  No. Of Pax
+                </Label>
+                <NumberInput />
+              </div>
+
+              <div className="col-span-2 flex items-center justify-end">
+                <Button variant="destructive">Remove</Button>
+              </div>
+            </CardContent>
+          </Card>
+>>>>>>> origin/pre-prod
 
         </CardContent>
       </Card>

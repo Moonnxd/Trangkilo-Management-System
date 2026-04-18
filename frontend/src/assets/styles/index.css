@@ -139,7 +139,8 @@
 [data-sonner-toast][data-type="error"] {
   background: hsl(0 84% 60% / 0.12) !important;
   border: 1px solid hsl(0 84% 60% / 0.35) !important;
-  color: hsl(0 84% 25%) !important;
+  /* color: hsl(0 84% 25%) !important; */
+  color: white;
 }
 
 /*  DEFAULT / INFO */
@@ -148,15 +149,12 @@
   border: 1px solid hsl(var(--border)) !important;
 }
 
-/*  OPTIONAL: nicer shadow */
+/*  shadow */
 [data-sonner-toast] {
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-}
-
-[data-sonner-toast] {
   backdrop-filter: blur(8px);
   top: 20px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 @layer base {

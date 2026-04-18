@@ -12,7 +12,7 @@ import SecondStep from "@/features/home/components/booking/BookingSecondStep.jsx
 import ThirdStep from "@/features/home/components/booking/BookingThirdStep.jsx"
 import FourthStep from "@/features/home/components/booking/BookingFourthStep.jsx"
 import Location from "@/features/home/components/booking/Location.jsx"
-// import Toggle from "@/components/ui/mode-toggle.jsx"
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import SelectService from "@/features/home/components/booking/SelectService"
 
 import { useState } from "react"
@@ -32,7 +32,7 @@ export default function HorizontalNonLinearStepper() {
   const [formData, setFormData] = useState({
     serviceType: "",
     branch: "",
-    therapist_type: "Any",
+    therapist_type: "",
     therapist_id: "",
     date: "",
     time: "",
@@ -130,7 +130,7 @@ export default function HorizontalNonLinearStepper() {
 
         console.log("Submitting:", finalData)
 
-        const response = await axios.post("/booking", finalData);
+        const response = await axios.post("http://localhost:5000/booking", finalData)
 
         console.log(response.data);
       } catch (err) {
@@ -169,7 +169,7 @@ export default function HorizontalNonLinearStepper() {
         </div>
       )}
 
-      {/* <Toggle /> */}
+      <ModeToggle/>
 
       <Box className="pt-5" sx={{ width: "100%" }}>
         
@@ -226,6 +226,7 @@ export default function HorizontalNonLinearStepper() {
 
 
               <Box
+                className="border"
                 sx={{ display: "flex", flexDirection: "row", pt: 2 }}
               >
                 <Button
@@ -245,13 +246,7 @@ export default function HorizontalNonLinearStepper() {
                       Step {activeStep + 1} already completed
                     </Typography>
                   ) : (
-                    <Button variant='contained' 
-                    sx={{
-                          backgroundColor: "#487d00",
-                          "&:hover": {
-                            backgroundColor: "#487d00"
-                          }
-                        }} onClick={handleComplete}>
+                    <Button onClick={handleComplete}>
                       {completedSteps() === totalSteps() - 1
                         ? "Finish"
                         : "Next"}

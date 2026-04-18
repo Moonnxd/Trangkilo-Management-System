@@ -1,6 +1,10 @@
 import background from '../../../assets/images/background.png';
 import { useState } from 'react';
 import PopUp from "@/features/home/components/popUp.jsx"
+<<<<<<< HEAD
+=======
+import { Button } from "@/components/ui/button"
+>>>>>>> origin/pre-prod
 
 function Body(){
     const [bookChoice, showChoices] = useState(false);
@@ -22,10 +26,10 @@ function Body(){
                 <p className="mt-5 ms:mt-5 md:mt-5 lg:mt-8 xl:mt-10
                 sm:text-sm md:text-md lg:text-lg xl:text-xl">Book professional massage services anytime, anywhere with ease.</p>
 
-                <button onClick={() => showChoices(true)} className="px-6 py-3 xl:px-12 xl:py-4
+                <Button onClick={() => showChoices(true)} className="px-6 py-3 xl:px-12 xl:py-10
                 sm:text-sm md:text-md lg:text-lg xl:text-xl
-                rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl bg-[#68ab49] text-white
-                mt-5 ms:mt-5 md:mt-5 lg:mt-8 xl:mt-10">Book Now</button>
+                rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl  text-white
+                mt-5 ms:mt-5 md:mt-5 lg:mt-8 xl:mt-10">Book Now</Button>
 
                 {bookChoice && (
                     <div className="fixed bg-black/40 inset-0 flex items-center justify-center z-50">

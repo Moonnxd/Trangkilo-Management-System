@@ -1,4 +1,5 @@
 import express from "express";
+<<<<<<< HEAD
 const router = express.Router();
 
 import { signup, login } from "../controllers/authController.js";
@@ -17,5 +18,12 @@ router.get("/profile", authMiddleware, (req, res) => {
     userId: req.session.userId
   });
 });
+=======
+import { signup } from "../controllers/authController.js";
+
+const router = express.Router();
+
+router.post("/", signup);
+>>>>>>> origin/pre-prod
 
 export default router;

@@ -1,5 +1,9 @@
 import express from "express";
+<<<<<<< HEAD
 import { db } from "../connection/db.js";
+=======
+import { db } from "../db.js";
+>>>>>>> origin/pre-prod
 
 const router = express.Router();
 
@@ -20,11 +24,19 @@ router.post("/", async (req, res) => {
         data.customer.gender,
         data.customer.mobile,
         data.customer.email,
+<<<<<<< HEAD
         data.location.zone || "",
         data.location.barangay,
         data.location.city,
         data.location.province,
       ],
+=======
+        data.location.zone || '',
+        data.location.barangay,
+        data.location.city,
+        data.location.province
+      ]
+>>>>>>> origin/pre-prod
     );
 
     const customer_id = customerResult.insertId;
@@ -32,7 +44,11 @@ router.post("/", async (req, res) => {
     const serviceTypeMap = {
       "Home Service": 1,
       "Hotel Service": 2,
+<<<<<<< HEAD
       "Branch Visit": 3,
+=======
+      "Branch Visit": 3
+>>>>>>> origin/pre-prod
     };
 
     const service_type_id = serviceTypeMap[data.serviceType];
@@ -47,6 +63,7 @@ router.post("/", async (req, res) => {
       totalDuration += Number(s.duration || 0);
     }
 
+<<<<<<< HEAD
     const startTime = convertTo24Hour(data.time);
     const start = new Date(`1970-01-01T${startTime}`);
     start.setMinutes(start.getMinutes() + totalDuration);
@@ -64,12 +81,21 @@ router.post("/", async (req, res) => {
   return `${String(hours).padStart(2, "0")}:${minutes}:00`;
 }
 
+=======
+    const startTime = data.time;
+    const start = new Date(`1970-01-01T${startTime}`);
+    start.setMinutes(start.getMinutes() + totalDuration);
+
+>>>>>>> origin/pre-prod
     const end_time = start.toTimeString().slice(0, 8);
 
     const therapist_id = data.therapist_id;
     const branch_id = data.branch.branch_id;
     const therapist_type = data.therapist_type;
+<<<<<<< HEAD
     const appointment_date = data.date.slice(0, 10);
+=======
+>>>>>>> origin/pre-prod
 
     const [appointmentResult] = await connection.query(
       `INSERT INTO appointments 
@@ -77,17 +103,30 @@ router.post("/", async (req, res) => {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         customer_id,
+<<<<<<< HEAD
         therapist_id || null,
+=======
+        therapist_id,
+>>>>>>> origin/pre-prod
         therapist_type,
         service_type_id,
         branch_id,
         null,
+<<<<<<< HEAD
         appointment_date,
         startTime,
         end_time,
         totalDuration,
         "APT" + Date.now(),
       ],
+=======
+        data.date,
+        data.time,
+        end_time,
+        totalDuration,
+        "APT" + Date.now()
+      ]
+>>>>>>> origin/pre-prod
     );
 
     const appointment_id = appointmentResult.insertId;
@@ -109,14 +148,20 @@ router.post("/", async (req, res) => {
           data.location.hotelName,
           data.location.roomNumber,
           data.location.landmark,
+<<<<<<< HEAD
           data.location.note,
         ],
+=======
+          data.location.note
+        ]
+>>>>>>> origin/pre-prod
       );
 
       appointment_location_id = locationResult.insertId;
     }
 
     if (appointment_location_id) {
+<<<<<<< HEAD
       await connection.query(
         `UPDATE appointments 
            SET appointment_location_id = ? 
@@ -124,6 +169,16 @@ router.post("/", async (req, res) => {
         [appointment_location_id, appointment_id],
       );
     }
+=======
+        await connection.query(
+          `UPDATE appointments 
+           SET appointment_location_id = ? 
+           WHERE appointment_id = ?`,
+          [appointment_location_id, appointment_id]
+        );
+      }
+
+>>>>>>> origin/pre-prod
 
     for (const service of data.services) {
       await connection.query(
@@ -135,8 +190,13 @@ router.post("/", async (req, res) => {
           service.id,
           service.price,
           service.duration,
+<<<<<<< HEAD
           service.pax || 1,
         ],
+=======
+          service.pax || 1
+        ]
+>>>>>>> origin/pre-prod
       );
     }
 
@@ -144,8 +204,14 @@ router.post("/", async (req, res) => {
 
     res.json({
       message: "Booking created successfully",
+<<<<<<< HEAD
       appointment_id,
     });
+=======
+      appointment_id
+    });
+
+>>>>>>> origin/pre-prod
   } catch (err) {
     await connection.rollback();
 
@@ -153,11 +219,21 @@ router.post("/", async (req, res) => {
 
     res.status(500).json({
       error: "Booking failed",
+<<<<<<< HEAD
       details: err.message,
     });
+=======
+      details: err.message
+    });
+
+>>>>>>> origin/pre-prod
   } finally {
     connection.release();
   }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+export default router;
+>>>>>>> origin/pre-prod

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { db } from "../connection/db.js";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
@@ -9,6 +10,13 @@ export const signup = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
+=======
+import { db } from "../db.js";
+import bcrypt from "bcrypt";
+
+export const signup = async (req, res) => {
+  try {
+>>>>>>> origin/pre-prod
     const {
       first_name,
       last_name,
@@ -18,6 +26,7 @@ export const signup = async (req, res) => {
       password,
       city,
       zone,
+<<<<<<< HEAD
       barangay,
     } = req.body;
 
@@ -31,25 +40,46 @@ export const signup = async (req, res) => {
       !city ||
       !zone ||
       !barangay
+=======
+      barangay
+    } = req.body;
+
+    if (
+      !first_name || !last_name || !gender ||
+      !contact_number || !email || !password ||
+      !city || !zone || !barangay
+>>>>>>> origin/pre-prod
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const [existing] = await db.query(
       "SELECT * FROM customers WHERE email = ?",
+<<<<<<< HEAD
       [email],
+=======
+      [email]
+>>>>>>> origin/pre-prod
     );
 
     if (existing.length > 0) {
       return res.status(400).json({ message: "Email already exists" });
     }
 
+<<<<<<< HEAD
     const hashedPassword = await bcrypt.hash(password, 14);
+=======
+    const hashedPassword = await bcrypt.hash(password, 10);
+>>>>>>> origin/pre-prod
 
     const [userResult] = await db.query(
       `INSERT INTO users (role_id, password)
        VALUES (?, ?)`,
+<<<<<<< HEAD
       [4, hashedPassword],
+=======
+      [4, hashedPassword]
+>>>>>>> origin/pre-prod
     );
 
     const user_id = userResult.insertId;
@@ -67,6 +97,7 @@ export const signup = async (req, res) => {
         email,
         city,
         zone,
+<<<<<<< HEAD
         barangay,
       ],
     );
@@ -82,12 +113,22 @@ export const signup = async (req, res) => {
         message: "Signup successful",
         user_id,
       });
+=======
+        barangay
+      ]
+    );
+
+    res.status(201).json({
+      message: "Signup successful",
+      user_id
+>>>>>>> origin/pre-prod
     });
 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
+<<<<<<< HEAD
 };
 
 export const login = async (req, res) => {
@@ -148,4 +189,6 @@ export const login = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
+=======
+>>>>>>> origin/pre-prod
 };

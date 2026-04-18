@@ -26,8 +26,11 @@ export default function Location({ serviceType, formData, setFormData }) {
     }))
   }
 
+<<<<<<< HEAD
   const numericOnly = (value) => value.replace(/\D/g, "")
 
+=======
+>>>>>>> origin/pre-prod
   return (
     <div>
       <Card className="flex 2xl:grid 2xl:grid-cols-[10%_90%]">
@@ -95,7 +98,11 @@ export default function Location({ serviceType, formData, setFormData }) {
             </Label>
             <Input
               value={formData.location.zone}
+<<<<<<< HEAD
               onChange={(e) => updateLocation("zone", numericOnly(e.target.value))}
+=======
+              onChange={(e) => updateLocation("zone", e.target.value)}
+>>>>>>> origin/pre-prod
               disabled={isHotel}
             />
           </div>
@@ -126,7 +133,11 @@ export default function Location({ serviceType, formData, setFormData }) {
             </Label>
             <Input
               value={formData.location.roomNumber}
+<<<<<<< HEAD
               onChange={(e) => updateLocation("roomNumber", numericOnly(e.target.value))}
+=======
+              onChange={(e) => updateLocation("roomNumber", e.target.value)}
+>>>>>>> origin/pre-prod
               disabled={isHome}
             />
           </div>

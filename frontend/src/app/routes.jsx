@@ -9,6 +9,11 @@ import AdminAppointmentPage from "@/features/admin/pages/AdminAppointmentPage.js
 import AdminOverviewPage from "@/features/admin/pages/AdminOverviewPage.jsx";
 import AdminStaffPage from "../features/admin/pages/AdminStaffPage.jsx";
 import AdminBranchesPage from "../features/admin/pages/AdminBranchesPage.jsx";
+<<<<<<< HEAD
+=======
+import AdminUsersPage from "../features/admin/pages/AdminUsersPage.jsx";
+import AdminSalesReportPage from "../features/admin/pages/AdminSalesReportPage.jsx";
+>>>>>>> origin/pre-prod
 import BookingPage from "@/features/home/pages/Booking"
 import SignUp from "@/features/home/pages/SignUp"
 import ClientLogIn from "@/features/home/pages/LoginPage"
@@ -27,6 +32,8 @@ export default function AppRoutes() {
                 <Route path="/admin/appointments" element={<AdminAppointmentPage />}></Route>
                 <Route path="/admin/staffs" element={<AdminStaffPage />}></Route>
                 <Route path="/admin/branches" element={<AdminBranchesPage />}></Route>
+                <Route path="/admin/users" element={<AdminUsersPage />}></Route>
+                <Route path="/admin/salesreport" element={<AdminSalesReportPage />}></Route>
             </Routes>
         </BrowserRouter>
     )

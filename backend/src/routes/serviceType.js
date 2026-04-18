@@ -1,5 +1,9 @@
 import express from "express";
+<<<<<<< HEAD
 import { db } from "../connection/db.js";
+=======
+import { db } from "../db.js";
+>>>>>>> origin/pre-prod
 
 const router = express.Router();
 
@@ -13,4 +17,8 @@ router.get("/", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+export default router;
+>>>>>>> origin/pre-prod

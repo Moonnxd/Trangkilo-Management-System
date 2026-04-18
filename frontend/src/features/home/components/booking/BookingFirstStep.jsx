@@ -32,6 +32,7 @@ export default function BookingFirstStep({ formData, setFormData }) {
 
   const [errors, setErrors] = React.useState({});
 
+<<<<<<< HEAD
   function formatLocalDate(date) {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, "0")
@@ -48,6 +49,10 @@ export default function BookingFirstStep({ formData, setFormData }) {
 
   React.useEffect(() => {
     axios.get("/staffs/therapist")
+=======
+  React.useEffect(() => {
+    axios.get("http://localhost:5000/staffs/therapist")
+>>>>>>> origin/pre-prod
       .then(res => {
         let data = res.data
 
@@ -62,7 +67,11 @@ export default function BookingFirstStep({ formData, setFormData }) {
   }, [filter])
 
   React.useEffect(() => {
+<<<<<<< HEAD
     axios.get("/branches")
+=======
+    axios.get("http://localhost:5000/branches")
+>>>>>>> origin/pre-prod
       .then(res => {
         setBranches(res.data)
       })
@@ -76,6 +85,10 @@ export default function BookingFirstStep({ formData, setFormData }) {
           <form>
             <div className="flex flex-col gap-6">
 
+<<<<<<< HEAD
+=======
+=
+>>>>>>> origin/pre-prod
               <div className="flex gap-2">
                 <Label className="font-bold">Select Branch:</Label>
 
@@ -117,7 +130,11 @@ export default function BookingFirstStep({ formData, setFormData }) {
 
                 <p>
                   {selectedBranch
+<<<<<<< HEAD
                     ? `${selectedBranch.barangay}, ${selectedBranch.city}, ${selectedBranch.province}`
+=======
+                    ? `${selectedBranch.barangay}, ${selectedBranch.city}, ${selectedBranch.province} (${selectedBranch.landmark})`
+>>>>>>> origin/pre-prod
                     : "Select a Branch"}
                 </p>
               </div>
@@ -254,12 +271,22 @@ export default function BookingFirstStep({ formData, setFormData }) {
                 required
                 selected={date}
                 onSelect={(value) => {
+<<<<<<< HEAD
   setDate(value)
   setFormData(prev => ({
     ...prev,
     date: value ? formatLocalDate(value) : ""
   }))
 }}
+=======
+                  setDate(value)
+
+                  setFormData(prev => ({
+                    ...prev,
+                    date: value ? value.toISOString() : "" 
+                  }))
+                }}
+>>>>>>> origin/pre-prod
                 className="w-[80%] rounded-lg border"
                 captionLayout="dropdown"
               />

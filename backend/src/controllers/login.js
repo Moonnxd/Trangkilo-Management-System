@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { db } from "../connection/db.js";
+=======
+import { db } from "../db.js";
+>>>>>>> origin/pre-prod
 import bcrypt from "bcrypt";
 
 export const login = async (req, res) => {
@@ -13,7 +17,11 @@ export const login = async (req, res) => {
 
     const [customerRows] = await db.query(
       `SELECT * FROM customers WHERE email = ? OR contact_number = ?`,
+<<<<<<< HEAD
       [loginValue, loginValue],
+=======
+      [loginValue, loginValue]
+>>>>>>> origin/pre-prod
     );
 
     if (customerRows.length === 0) {
@@ -27,9 +35,16 @@ export const login = async (req, res) => {
     }
 
     // get user credentials
+<<<<<<< HEAD
     const [userRows] = await db.query(`SELECT * FROM users WHERE user_id = ?`, [
       customer.user_id,
     ]);
+=======
+    const [userRows] = await db.query(
+      `SELECT * FROM users WHERE user_id = ?`,
+      [customer.user_id]
+    );
+>>>>>>> origin/pre-prod
 
     const user = userRows[0];
 
@@ -44,11 +59,22 @@ export const login = async (req, res) => {
       user: {
         customer_id: customer.customer_id,
         name: `${customer.first_name} ${customer.last_name}`,
+<<<<<<< HEAD
         role_id: user.role_id,
       },
     });
+=======
+        role_id: user.role_id
+      }
+    });
+
+>>>>>>> origin/pre-prod
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> origin/pre-prod

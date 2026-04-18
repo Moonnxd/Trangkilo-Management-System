@@ -36,6 +36,7 @@ export function SignupForm({ className, ...props }) {
     barangay: ""
   });
 
+<<<<<<< HEAD
   const isValidPHMobile = (number) => {
   const cleaned = number.replace(/[\s\-]/g, '');
   return /^(09|\+639|639)\d{9}$/.test(cleaned);
@@ -51,15 +52,28 @@ export function SignupForm({ className, ...props }) {
   }
   setForm({ ...form, [e.target.id]: e.target.value });
 };
+=======
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.id]: e.target.value
+    });
+  };
+>>>>>>> origin/pre-prod
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
     if (!isValidPHMobile(form.contact_number)) {
       setError("Please enter a valid Philippine mobile number (e.g. 09171234567)");
       return;
     }
 
+=======
+>>>>>>> origin/pre-prod
     if (!form.gender) {
       setError("Please select a gender");
       return;
@@ -76,12 +90,16 @@ export function SignupForm({ className, ...props }) {
         headers: {
           "Content-Type": "application/json"
         },
+<<<<<<< HEAD
         credentials: "include",
+=======
+>>>>>>> origin/pre-prod
         body: JSON.stringify(form)
       });
 
       const data = await res.json();
 
+<<<<<<< HEAD
       if (res.ok) {
   // SUCCESS → redirect
   window.location.href = "/clientlogin"; // or "/login"
@@ -90,6 +108,8 @@ export function SignupForm({ className, ...props }) {
   console.log(data.message);
 }
 
+=======
+>>>>>>> origin/pre-prod
       if (!res.ok) {
         setError(data.message || "Signup failed");
       } else {
@@ -217,11 +237,16 @@ export function SignupForm({ className, ...props }) {
             <FieldLabel>Mobile Number</FieldLabel>
             <Input
               id="contact_number"
+<<<<<<< HEAD
               type="tel"
               value={form.contact_number}
               onChange={handleChange}
               placeholder="09---------"
               maxLength={13}
+=======
+              value={form.contact_number}
+              onChange={handleChange}
+>>>>>>> origin/pre-prod
               required
             />
           </div>
