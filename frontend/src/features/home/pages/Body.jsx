@@ -32,15 +32,9 @@ export default function Body() {
 
         <Button
           onClick={() => showChoices(true)}
-<<<<<<< HEAD
-          className="md:text-md ms:mt-5 text-md mt-5 px-9 py-6 sm:text-sm md:mt-5 lg:mt-8 lg:text-lg xl:mt-10 xl:px-12 2xl:py-8 2xl:text-xl"
-        >
-          Book Nows
-=======
           className="md:text-md ms:mt-5 text-md mt-5 px-9 py-6 text-white sm:text-sm md:mt-5 lg:mt-8 lg:text-lg xl:mt-10 xl:px-12 2xl:py-8 2xl:text-xl"
         >
           Book Now
->>>>>>> moonxd/main
         </Button>
 
         {bookChoice && (

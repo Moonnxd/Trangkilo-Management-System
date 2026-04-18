@@ -1,9 +1,5 @@
 import express from "express";
-<<<<<<< HEAD
 import { db } from "../db.js";
-=======
-import { db } from "../connection/db.js";
->>>>>>> moonxd/main
 
 const router = express.Router();
 
@@ -17,8 +13,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 export default router;
-=======
-export default router;
->>>>>>> moonxd/main

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // import { Button } from "@/components/ui/button"
 // import { Separator } from "@/components/ui/separator"
 // import NumberInput from "@/components/ui/NumberInput"
@@ -255,7 +253,6 @@
 //   )
 // }
 
->>>>>>> moonxd/main
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import NumberInput from "@/components/ui/NumberInput"
@@ -277,12 +274,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
   const [selectedServices, setSelectedServices] = useState([])
 
   useEffect(() => {
-<<<<<<< HEAD
-    axios
-      .get("http://localhost:5000/services")
-=======
     axios.get("/services")
->>>>>>> moonxd/main
       .then((res) => {
         setServices(res.data)
       })
@@ -303,11 +295,7 @@ export default function BookingSecondStep({ formData, setFormData }) {
       name: service.service_name,
       price: service.price,
       duration: service.duration_minutes,
-<<<<<<< HEAD
-      pax: 1
-=======
       pax: service.number_of_pax
->>>>>>> moonxd/main
     }
 
     const updated = [...selectedServices, normalizedService]
@@ -366,99 +354,16 @@ export default function BookingSecondStep({ formData, setFormData }) {
                   <TabsTrigger value="Specialty">Specialty</TabsTrigger>
                 </TabsList>
 
-<<<<<<< HEAD
-           
-                <TabsContent className="flex flex-col gap-3" value="All">
-                  {services.map((service) => (
-                    <Card key={service.services_id}>
-                      <CardContent className="grid grid-cols-[70%_30%]">
-                        <div className="flex flex-col gap-4">
-                          <Label>{service.service_name}</Label>
-                          <Label>{service.price}</Label>
-                        </div>
-
-                        <div className="flex items-center justify-center">
-                          <Button
-                            type="button"
-                            onClick={() => handleAddService(service)}
-                          >
-                            + Add
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </TabsContent>
-
-         
-                <TabsContent value="Premium">
-                  {services
-                    .filter((s) => s.service_category === "Premium")
-                    .map((service) => (
-                      <Card key={service.services_id}>
-                        <CardContent className="grid grid-cols-[70%_30%]">
-                          <div>
-=======
                 <div className="h-[500px] overflow-y-auto pr-2 mt-2">
                   <TabsContent className="flex flex-col gap-3" value="All">
                     {services.map((service) => (
                       <Card key={service.services_id}>
                         <CardContent className="grid grid-cols-[70%_30%]">
                           <div className="flex flex-col gap-4">
->>>>>>> moonxd/main
                             <Label>{service.service_name}</Label>
                             <Label>{service.price}</Label>
                           </div>
 
-<<<<<<< HEAD
-                          <Button onClick={() => handleAddService(service)}>
-                            + Add
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    ))}
-                </TabsContent>
-
-           
-                <TabsContent value="Traditional">
-                  {services
-                    .filter((s) => s.service_category === "Traditional")
-                    .map((service) => (
-                      <Card key={service.services_id}>
-                        <CardContent className="grid grid-cols-[70%_30%]">
-                          <div>
-                            <Label>{service.service_name}</Label>
-                            <Label>{service.price}</Label>
-                          </div>
-
-                          <Button onClick={() => handleAddService(service)}>
-                            + Add
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    ))}
-                </TabsContent>
-
-             
-                <TabsContent value="Specialty">
-                  {services
-                    .filter((s) => s.service_category === "Specialty")
-                    .map((service) => (
-                      <Card key={service.services_id}>
-                        <CardContent className="grid grid-cols-[70%_30%]">
-                          <div>
-                            <Label>{service.service_name}</Label>
-                            <Label>{service.price}</Label>
-                          </div>
-
-                          <Button onClick={() => handleAddService(service)}>
-                            + Add
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    ))}
-                </TabsContent>
-=======
                           <div className="flex items-center justify-center">
                             <Button
                               type="button"
@@ -545,15 +450,11 @@ export default function BookingSecondStep({ formData, setFormData }) {
                   </TabsContent>
                 </div>
 
->>>>>>> moonxd/main
               </Tabs>
             </div>
           </form>
 
           <div className="flex justify-center pt-5 pb-3">
-<<<<<<< HEAD
-            <MobileDrawer />
-=======
             <MobileDrawer
               selectedServices={selectedServices}
               formData={formData}
@@ -561,7 +462,6 @@ export default function BookingSecondStep({ formData, setFormData }) {
               onPaxChange={handlePaxChange}
               onSubmit={() => console.log("submit", formData)}
             />
->>>>>>> moonxd/main
           </div>
         </CardContent>
 
@@ -571,18 +471,6 @@ export default function BookingSecondStep({ formData, setFormData }) {
 
           <Separator />
 
-<<<<<<< HEAD
-          <div className="flex flex-col gap-3">
-            <div className="flex gap-1">
-              <img src={location} className="h-5 w-5" />
-              <Label>Selected Location</Label>
-            </div>
-
-            <div className="flex gap-2">
-              <img src={date} className="h-4 w-4" />
-              <Label>Date & Time</Label>
-            </div>
-=======
           <div className="flex gap-1">
             <img src={location} className="h-5 w-5" />
             <Label>
@@ -599,17 +487,12 @@ export default function BookingSecondStep({ formData, setFormData }) {
                 ? `${formData.date} at ${formData.time}`
                 : "No date & time selected"}
             </Label>
->>>>>>> moonxd/main
           </div>
 
           {selectedServices.map((service) => (
             <Card key={service.id}>
               <CardContent className="grid grid-cols-2 gap-2">
-<<<<<<< HEAD
-                <div>
-=======
                 <div className='flex flex-col justify-between'>
->>>>>>> moonxd/main
                   <Label>{service.name}</Label>
                   <Label>Price: {service.price}</Label>
                 </div>

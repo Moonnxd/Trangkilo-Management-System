@@ -9,11 +9,8 @@ import AdminAppointmentPage from "@/features/admin/pages/AdminAppointmentPage.js
 import AdminOverviewPage from "@/features/admin/pages/AdminOverviewPage.jsx";
 import AdminStaffPage from "../features/admin/pages/AdminStaffPage.jsx";
 import AdminBranchesPage from "../features/admin/pages/AdminBranchesPage.jsx";
-<<<<<<< HEAD
 import AdminUsersPage from "../features/admin/pages/AdminUsersPage.jsx";
 import AdminSalesReportPage from "../features/admin/pages/AdminSalesReportPage.jsx";
-=======
->>>>>>> moonxd/main
 import BookingPage from "@/features/home/pages/Booking"
 import SignUp from "@/features/home/pages/SignUp"
 import ClientLogIn from "@/features/home/pages/LoginPage"

@@ -25,17 +25,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-<<<<<<< HEAD
-import  location  from '@/assets/location.png'
-import date from '@/assets/date.png';
-
-export function MobileDrawer() {
-=======
 import location from '@/assets/location.png'
 import date from '@/assets/date.png'
 
 export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, onPaxChange, onSubmit }) {
->>>>>>> moonxd/main
   return (
     <div className=''>
       <Drawer>
@@ -45,11 +38,7 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
           lg:hidden
           xl:hidden
           2xl:hidden" variant="outline">
-<<<<<<< HEAD
-            View Appointment
-=======
             View Appointment <span className="bg-red-500 rounded-[50%] px-1 text-white">{selectedServices.length > 0 && `${selectedServices.length}`}</span>
->>>>>>> moonxd/main
           </Button>
         </DrawerTrigger>
 
@@ -60,28 +49,15 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
 
           {/* CONTENT AREA */}
           <Card>
-<<<<<<< HEAD
-            <CardContent className="flex flex-col gap-6">
-              <div className="">
-              </div>
-
-
-=======
             <CardContent className="flex flex-col gap-6 overflow-y-auto">
               <div className="">
               </div>
 
->>>>>>> moonxd/main
               <div className="flex flex-col gap-3">
                 <div className="flex gap-1">
                   <img
                     src={location}
                     className="h-5 w-5 sm:h-5 sm:w-5 md:h-5 md:w-5 xl:h-5 xl:w-5 2xl:h-6 2xl:w-6"
-<<<<<<< HEAD
-                  ></img>
-                  <Label className="text-xs 2xl:text-base">
-                    Orange Dormitel, Barangay Tinago, Naga City
-=======
                   />
                   <Label className="text-xs 2xl:text-base">
                     {formData?.location
@@ -94,7 +70,6 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
                           .filter(Boolean)
                           .join(", ")
                       : "No location selected"}
->>>>>>> moonxd/main
                   </Label>
                 </div>
 
@@ -102,40 +77,6 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
                   <img
                     src={date}
                     className="h-4 w-4 sm:h-5 sm:w-5 md:h-5 md:w-5 xl:h-5 xl:w-5 2xl:h-5 2xl:w-5"
-<<<<<<< HEAD
-                  ></img>
-                  <Label className="text-xs 2xl:text-base">
-                    Friday, March 31, 2026
-                  </Label>
-                  <Label className="text-xs 2xl:text-base">4:30 PM</Label>
-                </div>
-              </div>
-
-              <Card>
-                <CardContent className="grid grid-cols-2 grid-rows-2 gap-1">
-                  <div>
-                    <Label className="text-xs 2xl:text-base">
-                      Volcanic Hot Stone Massage
-                    </Label>
-                    <Label className="text-xs 2xl:text-base">
-                      + Body Scrub
-                    </Label>
-                    <Label className="text-xs 2xl:text-base">
-                      + 15 mins Foot Massage
-                    </Label>
-                  </div>
-
-                  <div className="flex flex-col items-center justify-center">
-                    <Label className="text-xs 2xl:text-base">No. Of Pax</Label>
-                    <NumberInput />
-                  </div>
-
-                  <div className="col-span-2 flex items-center justify-end">
-                    <Button variant="destructive">Remove</Button>
-                  </div>
-                </CardContent>
-              </Card>
-=======
                   />
                   <Label className="text-xs 2xl:text-base">
                     {formData?.date || "No date selected"}
@@ -183,16 +124,11 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
                 ))
               )}
 
->>>>>>> moonxd/main
             </CardContent>
           </Card>
 
           <DrawerFooter>
-<<<<<<< HEAD
-            <Button>Submit</Button>
-=======
             <Button onClick={onSubmit}>Submit</Button>
->>>>>>> moonxd/main
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
             </DrawerClose>
@@ -201,8 +137,4 @@ export function MobileDrawer({ selectedServices = [], formData = {}, onRemove, o
       </Drawer>
     </div>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> moonxd/main

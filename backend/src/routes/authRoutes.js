@@ -1,11 +1,4 @@
 import express from "express";
-<<<<<<< HEAD
-import { signup } from "../controllers/authController.js";
-
-const router = express.Router();
-
-router.post("/", signup);
-=======
 const router = express.Router();
 
 import { signup, login } from "../controllers/authController.js";
@@ -24,6 +17,5 @@ router.get("/profile", authMiddleware, (req, res) => {
     userId: req.session.userId
   });
 });
->>>>>>> moonxd/main
 
 export default router;

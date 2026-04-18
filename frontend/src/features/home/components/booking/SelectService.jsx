@@ -14,12 +14,6 @@ import {
   ComboboxList,
 } from "./combobox"
 
-<<<<<<< HEAD
-//import api
-import { getServiceType } from "@/api/serviceTypeApi"
-
-=======
->>>>>>> moonxd/main
 
 export default function SelectService({ close, setServiceType }) {
   const navigate = useNavigate()
@@ -37,11 +31,7 @@ export default function SelectService({ close, setServiceType }) {
 }
 
 useEffect(() => {
-<<<<<<< HEAD
-  axios.get("http://localhost:5000/api/serviceType")
-=======
   axios.get("/serviceType")
->>>>>>> moonxd/main
     .then(res => {
       // convert objects to array of names
       const names = res.data.map(item => item.service_type_name)
@@ -56,11 +46,7 @@ useEffect(() => {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-9 border bg-[#f5f7fa] dark:bg-black ">
-=======
     <div className="flex h-screen w-full flex-col items-center justify-center gap-9 border bg-[#f5f7fa]">
->>>>>>> moonxd/main
       <Card className="p-40">
         <CardContent className="flex flex-col items-center gap-5">
           <CardTitle className="text-xl">Select Service Type</CardTitle>
