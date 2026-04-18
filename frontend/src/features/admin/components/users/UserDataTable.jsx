@@ -19,7 +19,7 @@ import {
 
 /* ---------------- DATA TABLE ---------------- */
 
-export function BranchDataTable({ data = [], onNameClick }) {
+export function UserDataTable({ data = [], onNameClick }) {
   const [rowSelection, setRowSelection] = React.useState({});
   console.log(data);
 
@@ -27,23 +27,32 @@ export function BranchDataTable({ data = [], onNameClick }) {
     () => [
       // /* NAME */
       {
-        accessorKey: "branch_id",
-        header: "Branch Name",
+        accessorKey: "name",
+        header: "Name",
         cell: ({ row }) => (
           <Button 
             variant="link"
             className="underline"
             onClick={() => onNameClick(row.original)}  
           >
-            {row.original.branch_name}
+            {row.original.name}
           </Button> 
         )
       },
 
-      /* BRANCH ADDRESS */
+      /* BRANCH NAME */
       {
-        accessorKey: "address",
-        header: "Address",
+        accessorKey: "branch_name",
+        header: "Branch",
+        cell: ({ getValue }) => (
+          getValue()
+        ),
+      },
+
+      /* ROLE */
+      {
+        accessorKey: "role_name",
+        header: "Role",
         cell: ({ getValue }) => (
           getValue()
         ),
@@ -134,7 +143,7 @@ export function BranchDataTable({ data = [], onNameClick }) {
           ) : (
             <TableRow>
               <TableCell colSpan={4} className="text-center py-6">
-                No branch data available
+                No staff data available
               </TableCell>
             </TableRow>
           )}

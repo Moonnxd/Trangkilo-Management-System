@@ -19,16 +19,16 @@ import {
 
 /* ---------------- DATA TABLE ---------------- */
 
-export function BranchDataTable({ data = [], onNameClick }) {
+export function SalesDataTable({ data = [], onNameClick }) {
   const [rowSelection, setRowSelection] = React.useState({});
   console.log(data);
 
   const columns = React.useMemo(
     () => [
-      // /* NAME */
+      /* BRANCH NAME */
       {
-        accessorKey: "branch_id",
-        header: "Branch Name",
+        accessorKey: "branch_name",
+        header: "Branch",
         cell: ({ row }) => (
           <Button 
             variant="link"
@@ -40,49 +40,34 @@ export function BranchDataTable({ data = [], onNameClick }) {
         )
       },
 
-      /* BRANCH ADDRESS */
+      /* Total Appointments */
       {
-        accessorKey: "address",
-        header: "Address",
+        accessorKey: "total_appointments",
+        header: "Total Appointments",
         cell: ({ getValue }) => (
           getValue()
         ),
       },
 
-      /* CONTACT */
+       /* Total Services */
+       {
+        accessorKey: "total_services",
+        header: "Total Services",
+        cell: ({ getValue }) => (
+          getValue()
+        ),
+      },
+      
+
+      /* Revenue */
       {
-        accessorKey: "contact_number",
-        header: "Contact Number",
+        accessorKey: "total_sales",
+        header: "Total Sales",
         cell: ({ getValue }) => (
           getValue()
         ),
       },
 
-      /* EMAIL */
-      {
-        accessorKey: "email",
-        header: "Email",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* STATUS */
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ getValue }) => {
-          const value = getValue();
-
-          return (
-            <Badge
-            variant={value === "Active" ? "success" : "destructive"}
-            >
-              {value}
-            </Badge>
-          );
-        },
-      },
     ],
     []
   );
@@ -134,7 +119,7 @@ export function BranchDataTable({ data = [], onNameClick }) {
           ) : (
             <TableRow>
               <TableCell colSpan={4} className="text-center py-6">
-                No branch data available
+                No sales data available
               </TableCell>
             </TableRow>
           )}

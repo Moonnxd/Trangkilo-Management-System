@@ -87,8 +87,8 @@ import { Server } from "socket.io";         // ← change from require
 import staffRoutes from "./src/routes/staffRoutes.js"
 import roleRoutes from "./src/routes/roleRoutes.js"
 import branchRoutes from "./src/routes/branchRoutes.js"
-import appointmentRoutes from "./src/routes/appointmentRoutes.js";
 import serviceType from "./src/routes/serviceType.js";
+import appointmentRoutes from "./src/routes/appointmentRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import loginRouter from "./src/routes/loginRoutes.js";
 import insertRoutes from "./src/routes/insert.js";

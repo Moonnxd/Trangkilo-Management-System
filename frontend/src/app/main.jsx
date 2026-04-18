@@ -19,6 +19,7 @@ createRoot(document.getElementById('root')).render(
           background: "hsl(var(--card))",
           color: "hsl(var(--card-foreground))",
           border: "1px solid hsl(var(--border))",
+          duration: 7000,
         },
       }}
     />

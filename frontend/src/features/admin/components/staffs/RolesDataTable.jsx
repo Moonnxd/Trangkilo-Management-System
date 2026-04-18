@@ -5,7 +5,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button"
 
 import {
@@ -19,69 +18,43 @@ import {
 
 /* ---------------- DATA TABLE ---------------- */
 
-export function BranchDataTable({ data = [], onNameClick }) {
+export function RolesDataTable({ data = [], onNameClick }) {
   const [rowSelection, setRowSelection] = React.useState({});
   console.log(data);
 
   const columns = React.useMemo(
     () => [
-      // /* NAME */
+      /* Role */
       {
-        accessorKey: "branch_id",
-        header: "Branch Name",
-        cell: ({ row }) => (
-          <Button 
-            variant="link"
-            className="underline"
-            onClick={() => onNameClick(row.original)}  
-          >
-            {row.original.branch_name}
-          </Button> 
-        )
-      },
-
-      /* BRANCH ADDRESS */
-      {
-        accessorKey: "address",
-        header: "Address",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* CONTACT */
-      {
-        accessorKey: "contact_number",
-        header: "Contact Number",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* EMAIL */
-      {
-        accessorKey: "email",
-        header: "Email",
-        cell: ({ getValue }) => (
-          getValue()
-        ),
-      },
-
-      /* STATUS */
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ getValue }) => {
-          const value = getValue();
-
-          return (
-            <Badge
-            variant={value === "Active" ? "success" : "destructive"}
-            >
-              {value}
-            </Badge>
+        accessorKey: "role",
+        header: "Role",
+        cell: ({ row }) => {
+          const isRestricted = ["Admin", "Receptionist", "Therapist", "Customer"].includes(
+            row.original.role_name
           );
-        },
+          return (
+            <Button 
+              variant="link"
+              title={isRestricted ? "This roles cannot be edited" : "Click to edit"}
+              className={`underline ${isRestricted ? "text-muted-foreground cursor-not-allowed" : "text-primary"}`}
+              onClick={() => {
+                if (isRestricted) return;
+                onNameClick(row.original);
+              }}
+            >
+              {row.original.role_name}
+            </Button> 
+          )
+        } 
+      },
+
+      /*  Description */
+      {
+        accessorKey: "description",
+        header: "Description",
+        cell: ({ getValue }) => (
+          getValue()
+        ),
       },
     ],
     []
@@ -134,7 +107,7 @@ export function BranchDataTable({ data = [], onNameClick }) {
           ) : (
             <TableRow>
               <TableCell colSpan={4} className="text-center py-6">
-                No branch data available
+                No role data available
               </TableCell>
             </TableRow>
           )}
