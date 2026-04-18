@@ -443,28 +443,28 @@ function to12Hour(timeStr) {
 // ── initial state factories ─────────────────────────────────────────────────
 const initCustomer  = () => ({ firstName: "", middleName: "", lastName: "", gender: "", mobile: "", email: "" })
 const initLocation  = () => ({ province: "", city: "", barangay: "", houseNumber: "", zone: "", street: "", hotelName: "", roomNumber: "", landmark: "", note: "" })
-const initAppt      = () => ({ date: "", time: "", pax: "1", therapist_type: "Any", therapist: "none", branch_id: "" })
+const initAppt      = () => ({ date: new Date().toISOString().split("T")[0], time: "", pax: "1", therapist_type: "Any", therapist: "none", branch_id: "" })
 const initTreatment = () => ({ id: "", name: "", duration: "", price: 0 })
 
 export function AddAppointment() {
-  // ── dialog ──
+ 
   const [open, setOpen]       = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState("")
 
-  // ── service type ──
+
   const [serviceType, setServiceType] = useState("Branch Visit")
   const isHome   = serviceType === "Home Service"
   const isHotel  = serviceType === "Hotel Service"
   const isBranch = serviceType === "Branch Visit"
 
-  // ── form state ──
+
   const [customer,  setCustomer]  = useState(initCustomer())
   const [location,  setLocation]  = useState(initLocation())
   const [appt,      setAppt]      = useState(initAppt())
   const [treatment, setTreatment] = useState(initTreatment())
 
-  // ── remote data ──
+
   const [services,   setServices]   = useState([])
   const [therapists, setTherapists] = useState([])
   const [branches,   setBranches]   = useState([])
@@ -483,19 +483,18 @@ export function AddAppointment() {
       .catch((err) => console.error("Failed to fetch branches", err))
   }, [])
 
-  // ── derived ──
   const filteredTherapists = therapists.filter((t) =>
     appt.therapist_type === "Any" ? true : t.gender === appt.therapist_type
   )
 
   const total = Number(treatment.price || 0) * Number(appt.pax || 1)
 
-  // ── field helpers ──
+  // field helpers
   const setC = (field, val) => setCustomer((p) => ({ ...p, [field]: val }))
   const setL = (field, val) => setLocation((p) => ({ ...p, [field]: val }))
   const setA = (field, val) => setAppt((p)     => ({ ...p, [field]: val }))
 
-  // ── treatment select ──
+  // treatment select 
   const handleTreatmentSelect = (name) => {
     const svc = services.find((s) => s.service_name === name)
     if (!svc) return
@@ -507,7 +506,6 @@ export function AddAppointment() {
     })
   }
 
-  // ── reset ──
   const reset = () => {
     setCustomer(initCustomer())
     setLocation(initLocation())
@@ -517,7 +515,6 @@ export function AddAppointment() {
     setError("")
   }
 
-  // ── submit ──
   const handleSubmit = async () => {
     setError("")
 
@@ -584,7 +581,6 @@ export function AddAppointment() {
     }
   }
 
-  // ── render ──────────────────────────────────────────────────────────────────
   return (
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) reset() }}>
       <DialogTrigger asChild>
@@ -601,7 +597,6 @@ export function AddAppointment() {
         <FieldSeparator>Customer's Information</FieldSeparator>
 
         <FieldGroup>
-          {/* ── Customer ── */}
           <Field className="grid grid-cols-4 gap-4">
             <div className="col-span-4 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
               <Label>First Name</Label>
@@ -654,7 +649,6 @@ export function AddAppointment() {
 
           <FieldSeparator>Appointment Information</FieldSeparator>
 
-          {/* ── Appointment ── */}
           <Field className="grid grid-cols-6 gap-4">
             <div className="col-span-3 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1 2xl:col-span-2">
               <Label>Treatment</Label>
@@ -691,7 +685,7 @@ export function AddAppointment() {
 
             <div className="col-span-2 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
               <Label>Date</Label>
-              <Input type="date" value={appt.date} onChange={(e) => setA("date", e.target.value)} />
+              <Input type="date" value={appt.date} min={new Date().toISOString().split("T")[0]} onChange={(e) => setA("date", e.target.value)} />
             </div>
 
             <div className="col-span-2 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
@@ -713,7 +707,7 @@ export function AddAppointment() {
                 value={appt.therapist_type}
                 onValueChange={(v) => {
                   setA("therapist_type", v)
-                  setA("therapist", "none") // reset selection when type changes
+                  setA("therapist", "none")
                 }}
               >
                 <SelectTrigger className="min-w-full">
@@ -752,7 +746,6 @@ export function AddAppointment() {
             </div>
           </Field>
 
-          {/* ── Service Type + Branch ── */}
           <Field className="grid grid-cols-4 gap-4">
             <div className="col-span-4 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
               <Label>Service Type</Label>
@@ -770,6 +763,7 @@ export function AddAppointment() {
               </Select>
             </div>
 
+            {/* temp, remove branch selection when receptionist per branch logic is added */}
             <div className="col-span-4 sm:col-span-4 md:col-span-1 lg:col-span-1 xl:col-span-1 2xl:col-span-1">
               <Label>Branch</Label>
               <Select value={appt.branch_id} onValueChange={(v) => setA("branch_id", v)}>
@@ -789,7 +783,6 @@ export function AddAppointment() {
             </div>
           </Field>
 
-          {/* ── Location (home / hotel only) ── */}
           {!isBranch && (
             <Field className="grid grid-cols-4 gap-4">
               <div>
@@ -858,7 +851,6 @@ export function AddAppointment() {
             </Field>
           )}
 
-          {/* ── Total + error ── */}
           <Field>
             <Label>
               Total: ₱{total.toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
