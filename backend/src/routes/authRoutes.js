@@ -9,7 +9,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 router.post("/signup", rateLimit, signupValidator, signup);
 router.post("/login", rateLimit, login);
 
-
+//test
 //temp for testing only
 router.get("/profile", authMiddleware, (req, res) => {
   res.json({
